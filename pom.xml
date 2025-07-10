@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	
+    <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.zzyl</groupId>
     <artifactId>zzyl</artifactId>
     <version>3.9.0</version>
@@ -11,7 +11,7 @@
     <name>zzyl</name>
     <url>http://www.ruoyi.vip</url>
     <description>中州养老</description>
-    
+
     <properties>
         <zzyl.version>3.9.0</zzyl.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,6 +35,7 @@
         <logback.version>1.2.13</logback.version>
         <spring-security.version>5.7.12</spring-security.version>
         <spring-framework.version>5.3.39</spring-framework.version>
+        <knife4j.version>3.0.3</knife4j.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -223,6 +224,13 @@
                 <groupId>com.zzyl</groupId>
                 <artifactId>zzyl-nursing-platform</artifactId>
                 <version>${zzyl.version}</version>
+            </dependency>
+
+            <!-- knife4j -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
