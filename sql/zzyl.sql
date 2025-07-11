@@ -193,3 +193,6 @@ insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame
 values ('护理等级导出', @parentId, '5', '#', '', 1, 0, 'F', '0', '0', 'serve:level:export', '#', 'admin', sysdate(), '',
         null, '');
 
+-- 修改护理等级表中id字段的注释为“编号”
+ALTER TABLE "nursing_level"
+    MODIFY COLUMN "id" bigint NOT NULL AUTO_INCREMENT COMMENT '编号';
