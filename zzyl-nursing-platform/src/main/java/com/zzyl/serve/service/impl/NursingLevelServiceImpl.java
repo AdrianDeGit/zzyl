@@ -57,7 +57,7 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
     @Override
     public int insertNursingLevel(NursingLevel nursingLevel)
     {
-                nursingLevel.setCreateTime(DateUtils.getNowDate());
+                // nursingLevel.setCreateTime(DateUtils.getNowDate());
                         return save(nursingLevel) ? 1 : 0;
     }
 

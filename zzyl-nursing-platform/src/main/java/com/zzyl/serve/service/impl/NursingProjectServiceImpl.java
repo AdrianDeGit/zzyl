@@ -57,7 +57,7 @@ public class NursingProjectServiceImpl extends ServiceImpl<NursingProjectMapper,
     @Override
     public int insertNursingProject(NursingProject nursingProject)
     {
-                nursingProject.setCreateTime(DateUtils.getNowDate());
+                // nursingProject.setCreateTime(DateUtils.getNowDate());
                         return save(nursingProject) ? 1 : 0;
     }
 
@@ -70,7 +70,7 @@ public class NursingProjectServiceImpl extends ServiceImpl<NursingProjectMapper,
     @Override
     public int updateNursingProject(NursingProject nursingProject)
     {
-                nursingProject.setUpdateTime(DateUtils.getNowDate());
+                // nursingProject.setUpdateTime(DateUtils.getNowDate());
                 return updateById(nursingProject) ? 1 : 0;
     }
 

@@ -19,8 +19,8 @@ import java.util.Date;
 public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-        strictInsertFill(metaObject, "createTime", Date.class, new Date());
-        strictInsertFill(metaObject, "createBy", String.class, String.valueOf(loadUserId()));
+        this.strictInsertFill(metaObject, "createTime", Date.class, new Date());
+        this.strictInsertFill(metaObject, "createBy", String.class, String.valueOf(loadUserId()));
     }
 
     @Override

@@ -48,7 +48,7 @@ public class BaseEntity implements Serializable {
      * 更新者
      */
     @ApiModelProperty(value = "更新者")
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.UPDATE)
     private String updateBy;
 
     /**
@@ -56,7 +56,7 @@ public class BaseEntity implements Serializable {
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "更新时间")
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.UPDATE)
     private Date updateTime;
 
     /**

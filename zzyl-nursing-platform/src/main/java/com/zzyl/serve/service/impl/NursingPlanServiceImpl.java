@@ -57,7 +57,7 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
     @Override
     public int insertNursingPlan(NursingPlan nursingPlan)
     {
-                nursingPlan.setCreateTime(DateUtils.getNowDate());
+                // nursingPlan.setCreateTime(DateUtils.getNowDate());
                         return save(nursingPlan) ? 1 : 0;
     }
 

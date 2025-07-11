@@ -196,3 +196,23 @@ values ('护理等级导出', @parentId, '5', '#', '', 1, 0, 'F', '0', '0', 'ser
 -- 修改护理等级表中id字段的注释为“编号”
 ALTER TABLE "nursing_level"
     MODIFY COLUMN "id" bigint NOT NULL AUTO_INCREMENT COMMENT '编号';
+
+-- 护理项目表：取消时间自动填充
+ALTER TABLE `nursing_project`
+    MODIFY COLUMN `create_time` datetime NOT NULL COMMENT '创建时间',  -- 移除 DEFAULT CURRENT_TIMESTAMP
+    MODIFY COLUMN `update_time` datetime COMMENT '更新时间';         -- 移除 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+-- 护理项目计划关系表：取消时间自动填充
+ALTER TABLE `nursing_project_plan`
+    MODIFY COLUMN `create_time` datetime NOT NULL COMMENT '创建时间',  -- 移除 DEFAULT CURRENT_TIMESTAMP
+    MODIFY COLUMN `update_time` datetime COMMENT '更新时间';         -- 移除 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+-- 护理计划表：取消时间自动填充
+ALTER TABLE `nursing_plan`
+    MODIFY COLUMN `create_time` datetime NOT NULL COMMENT '创建时间',  -- 移除 DEFAULT CURRENT_TIMESTAMP
+    MODIFY COLUMN `update_time` datetime COMMENT '更新时间';         -- 移除 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+-- 护理等级表：取消时间自动填充
+ALTER TABLE `nursing_level`
+    MODIFY COLUMN `create_time` datetime NOT NULL COMMENT '创建时间',  -- 移除 DEFAULT CURRENT_TIMESTAMP
+    MODIFY COLUMN `update_time` datetime COMMENT '更新时间';         -- 移除 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
