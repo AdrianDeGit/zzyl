@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import ${packageName}.domain.${ClassName};
 #if($table.sub)
-import ${packageName}.domain .${subClassName};
+import ${packageName}.domain.${subClassName};
 #end
 
 /**
@@ -81,7 +81,6 @@ public interface ${ClassName}Mapper extends BaseMapper<${ClassName}> {
          * @return 结果
          */
         public int batch${subClassName}(List<${subClassName}> ${subclassName}List);
-
 
         /**
          * 通过${functionName}主键删除${subTable.functionName}信息

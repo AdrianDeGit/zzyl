@@ -1,21 +1,15 @@
 package ${packageName}.service.impl;
 
 import java.util.List;
-    #foreach ($column in $columns)
-        #if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
-        import com.zzyl.common.utils.DateUtils;
-            #break
-        #end
-    #end
+#if($table.sub)
+import java.util.ArrayList;
+
+import com.zzyl.common.utils.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
+import ${packageName}.domain.${subClassName};
+#end
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-    #if($table.sub)
-    import java.util.ArrayList;
-
-    import com.zzyl.common.utils.StringUtils;
-    import org.springframework.transaction.annotation.Transactional;
-    import ${packageName}.domain.${subClassName};
-    #end
 import ${packageName}.mapper.${ClassName}Mapper;
 import ${packageName}.domain.${ClassName};
 import ${packageName}.service.I${ClassName}Service;
@@ -24,6 +18,13 @@ import ${packageName}.mapper.${ClassName}Mapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import java.util.Arrays;
+
+#foreach ($column in $columns)
+    #if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
+    import com.zzyl.common.utils.DateUtils;
+        #break
+    #end
+#end
 
 /**
  * ${functionName}Service业务层处理
@@ -70,11 +71,11 @@ public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${C
         #end
     @Override
     public int insert${ClassName}(${ClassName} ${className}) {
-        #foreach ($column in $columns)
-            #if($column.javaField == 'createTime')
-                ${className}.setCreateTime(DateUtils.getNowDate());
-            #end
-        #end
+        ##        #foreach ($column in $columns)
+        ##            #if($column.javaField == 'createTime')
+        ##                ${className}.setCreateTime(DateUtils.getNowDate());
+        ##            #end
+        ##        #end
         #if($table.sub)
             int rows = ${className}Mapper.insert${ClassName}(${className});
             insert${subClassName}(${className});
@@ -96,16 +97,16 @@ public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${C
         #end
     @Override
     public int update${ClassName}(${ClassName} ${className}) {
-        #foreach ($column in $columns)
-            #if($column.javaField == 'updateTime')
-                ${className}.setUpdateTime(DateUtils.getNowDate());
-            #end
-        #end
-        #if($table.sub)
-                ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${className}.get${pkColumn.capJavaField}())
-            ;
-            insert${subClassName}(${className});
-        #end
+        ##        #foreach ($column in $columns)
+        ##            #if($column.javaField == 'updateTime')
+        ##                ${className}.setUpdateTime(DateUtils.getNowDate());
+        ##            #end
+        ##        #end
+        ##        #if($table.sub)
+        ##                ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${className}.get${pkColumn.capJavaField}())
+        ##            ;
+        ##            insert${subClassName}(${className});
+        ##        #end
         ##        return ${className}Mapper.update${ClassName}(${className});
         return updateById(${className}) ? 1 : 0;
     }
@@ -113,7 +114,7 @@ public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${C
     /**
      * 批量删除${functionName}
      *
-     * @param ${pkColumn.javaField}s 需要删除的${functionName}主键
+     * @param ${pkColumn.javaField}s 需要删除的数据主键集合
      * @return 结果
      */
         #if($table.sub)
@@ -156,8 +157,7 @@ public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${C
             ${pkColumn.javaType} ${pkColumn.javaField} = ${className}.get${pkColumn.capJavaField}();
             if (StringUtils.isNotNull(${subclassName}List)) {
                 List<${subClassName}> list = new ArrayList<${subClassName}>();
-                for (${subClassName} ${subclassName} :${subclassName}List)
-                {
+                for (${subClassName} ${subclassName} : ${subclassName}List) {
                     ${subclassName}.set${subTableFkClassName}(${pkColumn.javaField});
                     list.add(${subclassName});
                 }
