@@ -1,5 +1,6 @@
 package com.zzyl.serve.controller;
 
+import com.zzyl.serve.service.dto.NursingPlanDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -83,8 +84,8 @@ public class NursingPlanController extends BaseController {
     @Log(title = "护理计划", businessType = BusinessType.INSERT)
     @PostMapping
     @ApiOperation("新增护理计划")
-    public AjaxResult add(@ApiParam(value = "护理计划实体", required = true) @RequestBody NursingPlan nursingPlan) {
-        return toAjax(nursingPlanService.insertNursingPlan(nursingPlan));
+    public AjaxResult add(@ApiParam(value = "护理计划实体", required = true) @RequestBody NursingPlanDTO nursingPlanDTO) {
+        return toAjax(nursingPlanService.insertNursingPlan(nursingPlanDTO));
     }
 
     /**

@@ -66,6 +66,16 @@
         </trim>
     </insert>
 
+    <insert id="batchInsert">
+        insert into nursing_project_plan (plan_id, project_id, execute_time, execute_cycle, execute_frequency,
+        create_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{planId}, #{item.projectId}, #{item.executeTime}, #{item.executeCycle}, #{item.executeFrequency},
+            sysdate())
+        </foreach>
+    </insert>
+
     <update id="updateNursingProjectPlan" parameterType="NursingProjectPlan">
         update nursing_project_plan
         <trim prefix="SET" suffixOverrides=",">
