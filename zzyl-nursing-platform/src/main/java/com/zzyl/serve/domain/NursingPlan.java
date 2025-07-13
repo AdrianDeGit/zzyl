@@ -29,7 +29,7 @@ public class NursingPlan extends BaseEntity {
     /**
      * 排序号
      */
-    @ApiModelProperty(value = "${comment}")
+    @ApiModelProperty(value = "排序号")
     private Integer sortNo;
     /**
      * 名称
