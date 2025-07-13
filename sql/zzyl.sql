@@ -89,6 +89,10 @@ CREATE TABLE `nursing_level`
   ROW_FORMAT = DYNAMIC COMMENT ='护理等级表';
 
 -- 菜单 SQL
+
+
+INSERT INTO `sys_menu` VALUES (2000, '服务管理', 0, 0, 'serve', NULL, NULL, '', 1, 0, 'M', '0', '0', NULL, 'tool', 'admin', '2025-07-12 19:50:28', '', NULL, '');
+
 insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status,
                       perms, icon, create_by, create_time, update_by, update_time, remark)
 values ('护理项目', '2000', '1', 'project', 'serve/project/index', 1, 0, 'C', '0', '0', 'serve:project:list', '#',
@@ -216,3 +220,15 @@ ALTER TABLE `nursing_plan`
 ALTER TABLE `nursing_level`
     MODIFY COLUMN `create_time` datetime NOT NULL COMMENT '创建时间',
     MODIFY COLUMN `update_time` datetime COMMENT '更新时间';
+
+INSERT INTO `sys_dict_type` VALUES (100, '护理项目状态', 'nursing_project_status', '0', 'admin', '2025-07-12 20:45:37', '', NULL, '1--启用\n0--停用');
+INSERT INTO `sys_dict_type` VALUES (101, '护理计划状态', 'nursing_plan_status', '0', 'admin', '2025-07-12 20:47:02', '', NULL, '1--启用\n2--停用');
+INSERT INTO `sys_dict_type` VALUES (102, '护理等级状态', 'nursing_level_status', '0', 'admin', '2025-07-12 20:47:25', '', NULL, '1--启用\n2--停用');
+
+
+INSERT INTO `sys_dict_data` VALUES (100, 0, '启用', '1', 'nursing_project_status', NULL, 'default', 'N', '0', 'admin', '2025-07-12 20:48:44', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (101, 0, '禁用', '0', 'nursing_project_status', NULL, 'default', 'N', '0', 'admin', '2025-07-12 20:49:28', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (102, 0, '启用', '1', 'nursing_plan_status', NULL, 'default', 'N', '0', 'admin', '2025-07-12 20:49:49', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (103, 0, '禁用', '0', 'nursing_plan_status', NULL, 'default', 'N', '0', 'admin', '2025-07-12 20:49:55', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (104, 0, '启用', '1', 'nursing_level_status', NULL, 'default', 'N', '0', 'admin', '2025-07-12 20:50:07', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (105, 0, '禁用', '0', 'nursing_level_status', NULL, 'default', 'N', '0', 'admin', '2025-07-12 20:50:20', '', NULL, NULL);
