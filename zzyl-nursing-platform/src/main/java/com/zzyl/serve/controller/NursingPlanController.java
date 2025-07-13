@@ -1,6 +1,7 @@
 package com.zzyl.serve.controller;
 
-import com.zzyl.serve.service.dto.NursingPlanDTO;
+import com.zzyl.serve.dto.NursingPlanDTO;
+import com.zzyl.serve.vo.NursingPlanVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -41,12 +42,12 @@ public class NursingPlanController extends BaseController {
     @Autowired
     private INursingPlanService nursingPlanService;
 
-/**
- * 查询护理计划列表
- */
-@PreAuthorize("@ss.hasPermi('serve:plan:list')")
-@GetMapping("/list")
-@ApiOperation("查询护理计划列表")
+    /**
+     * 查询护理计划列表
+     */
+    @PreAuthorize("@ss.hasPermi('serve:plan:list')")
+    @GetMapping("/list")
+    @ApiOperation("查询护理计划列表")
     public TableDataInfo<List<NursingPlan>> list(NursingPlan nursingPlan) {
         startPage();
         List<NursingPlan> list = nursingPlanService.selectNursingPlanList(nursingPlan);
@@ -62,7 +63,7 @@ public class NursingPlanController extends BaseController {
     @ApiOperation("导出护理计划列表")
     public void export(HttpServletResponse response, NursingPlan nursingPlan) {
         List<NursingPlan> list = nursingPlanService.selectNursingPlanList(nursingPlan);
-        ExcelUtil<NursingPlan> util = new ExcelUtil<NursingPlan>(NursingPlan. class);
+        ExcelUtil<NursingPlan> util = new ExcelUtil<NursingPlan>(NursingPlan.class);
         util.exportExcel(response, list, "护理计划数据");
     }
 
@@ -72,9 +73,9 @@ public class NursingPlanController extends BaseController {
     @PreAuthorize("@ss.hasPermi('serve:plan:query')")
     @GetMapping(value = "/{id}")
     @ApiOperation("获取护理计划详细信息")
-    public R<NursingPlan> getInfo(@ApiParam(value = "护理计划ID", required = true)
-                                   @PathVariable("id") Integer id) {
-                return R.ok(nursingPlanService.selectNursingPlanById(id));
+    public R<NursingPlanVO> getInfo(@ApiParam(value = "护理计划ID", required = true)
+                                  @PathVariable("id") Integer id) {
+        return R.ok(nursingPlanService.selectNursingPlanById(id));
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.zzyl.serve.service.vo;
+package com.zzyl.serve.vo;
 
 
 import lombok.Data;

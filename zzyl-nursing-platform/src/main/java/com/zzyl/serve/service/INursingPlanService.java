@@ -3,7 +3,8 @@ package com.zzyl.serve.service;
 import java.util.List;
 import com.zzyl.serve.domain.NursingPlan;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zzyl.serve.service.dto.NursingPlanDTO;
+import com.zzyl.serve.dto.NursingPlanDTO;
+import com.zzyl.serve.vo.NursingPlanVO;
 
 /**
  * 护理计划Service接口
@@ -19,7 +20,7 @@ public interface INursingPlanService extends IService<NursingPlan>
      * @param id 护理计划主键
      * @return 护理计划
      */
-    public NursingPlan selectNursingPlanById(Integer id);
+    public NursingPlanVO selectNursingPlanById(Integer id);
 
     /**
      * 查询护理计划列表

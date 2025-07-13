@@ -5,18 +5,18 @@ import java.util.List;
 import com.zzyl.common.utils.DateUtils;
 import com.zzyl.common.utils.bean.BeanUtils;
 import com.zzyl.serve.mapper.NursingProjectPlanMapper;
-import com.zzyl.serve.service.dto.NursingPlanDTO;
+import com.zzyl.serve.dto.NursingPlanDTO;
+import com.zzyl.serve.vo.NursingPlanVO;
+import com.zzyl.serve.vo.NursingProjectPlanVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.zzyl.serve.mapper.NursingPlanMapper;
 import com.zzyl.serve.domain.NursingPlan;
 import com.zzyl.serve.service.INursingPlanService;
 
-import com.zzyl.serve.mapper.NursingPlanMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 
 /**
  * 护理计划Service业务层处理
@@ -38,8 +38,17 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
      * @return 护理计划
      */
     @Override
-    public NursingPlan selectNursingPlanById(Integer id) {
-        return getById(id);
+    public NursingPlanVO selectNursingPlanById(Integer id) {
+        // 1.根据id查询护理计划
+        NursingPlan nursingPlan = nursingPlanMapper.selectNursingPlanById(id);
+        NursingPlanVO nursingPlanVO = new NursingPlanVO();
+        BeanUtils.copyProperties(nursingPlan, nursingPlanVO);
+
+        // 2.根据护理计划id查询关联的所有护理项目
+        List<NursingProjectPlanVO> list = nursingProjectPlanMapper.selectByPlanId(id);
+
+        nursingPlanVO.setProjectPlans(list);
+        return nursingPlanVO;
     }
 
     /**

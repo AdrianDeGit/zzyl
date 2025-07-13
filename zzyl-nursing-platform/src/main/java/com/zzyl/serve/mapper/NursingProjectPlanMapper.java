@@ -2,6 +2,7 @@ package com.zzyl.serve.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zzyl.serve.domain.NursingProjectPlan;
+import com.zzyl.serve.vo.NursingProjectPlanVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 
@@ -73,4 +74,13 @@ public interface NursingProjectPlanMapper extends BaseMapper<NursingProjectPlan>
      */
     int batchInsert(@Param("list") List<NursingProjectPlan> projectPlans,
                     @Param("planId") Long planId);
+
+
+    /**
+     * 查询护理计划
+     *
+     * @param id
+     * @return
+     */
+    List<NursingProjectPlanVO> selectByPlanId(Integer id);
 }

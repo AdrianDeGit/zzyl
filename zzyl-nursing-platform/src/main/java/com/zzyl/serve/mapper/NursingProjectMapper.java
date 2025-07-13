@@ -2,7 +2,7 @@ package com.zzyl.serve.mapper;
 
 import java.util.List;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zzyl.serve.service.vo.NursingProjectVO;
+import com.zzyl.serve.vo.NursingProjectVO;
 import org.apache.ibatis.annotations.Mapper;
 import com.zzyl.serve.domain.NursingProject;
 import org.apache.ibatis.annotations.Select;

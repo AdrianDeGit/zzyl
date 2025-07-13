@@ -3,7 +3,7 @@ package com.zzyl.serve.service;
 import java.util.List;
 import com.zzyl.serve.domain.NursingProject;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zzyl.serve.service.vo.NursingProjectVO;
+import com.zzyl.serve.vo.NursingProjectVO;
 
 /**
  * 护理项目Service接口

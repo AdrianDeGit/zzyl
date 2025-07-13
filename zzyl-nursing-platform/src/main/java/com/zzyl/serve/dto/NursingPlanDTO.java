@@ -1,4 +1,4 @@
-package com.zzyl.serve.service.dto;
+package com.zzyl.serve.dto;
 
 
 import com.zzyl.serve.domain.NursingProjectPlan;
