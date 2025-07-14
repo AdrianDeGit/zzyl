@@ -232,3 +232,7 @@ INSERT INTO `sys_dict_data` VALUES (102, 0, '启用', '1', 'nursing_plan_status'
 INSERT INTO `sys_dict_data` VALUES (103, 0, '禁用', '0', 'nursing_plan_status', NULL, 'default', 'N', '0', 'admin', '2025-07-12 20:49:55', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (104, 0, '启用', '1', 'nursing_level_status', NULL, 'default', 'N', '0', 'admin', '2025-07-12 20:50:07', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (105, 0, '禁用', '0', 'nursing_level_status', NULL, 'default', 'N', '0', 'admin', '2025-07-12 20:50:20', '', NULL, NULL);
+
+
+alter table nursing_plan
+    drop key plan_name;
