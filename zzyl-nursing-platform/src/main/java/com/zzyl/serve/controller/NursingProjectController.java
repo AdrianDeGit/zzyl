@@ -41,12 +41,12 @@ public class NursingProjectController extends BaseController {
     @Autowired
     private INursingProjectService nursingProjectService;
 
-/**
- * 查询护理项目列表
- */
-@PreAuthorize("@ss.hasPermi('serve:project:list')")
-@GetMapping("/list")
-@ApiOperation("查询护理项目列表")
+    /**
+     * 查询护理项目列表
+     */
+    @PreAuthorize("@ss.hasPermi('serve:project:list')")
+    @GetMapping("/list")
+    @ApiOperation("查询护理项目列表")
     public TableDataInfo<List<NursingProject>> list(NursingProject nursingProject) {
         startPage();
         List<NursingProject> list = nursingProjectService.selectNursingProjectList(nursingProject);
@@ -62,7 +62,7 @@ public class NursingProjectController extends BaseController {
     @ApiOperation("导出护理项目列表")
     public void export(HttpServletResponse response, NursingProject nursingProject) {
         List<NursingProject> list = nursingProjectService.selectNursingProjectList(nursingProject);
-        ExcelUtil<NursingProject> util = new ExcelUtil<NursingProject>(NursingProject. class);
+        ExcelUtil<NursingProject> util = new ExcelUtil<NursingProject>(NursingProject.class);
         util.exportExcel(response, list, "护理项目数据");
     }
 
@@ -73,8 +73,8 @@ public class NursingProjectController extends BaseController {
     @GetMapping(value = "/{id}")
     @ApiOperation("获取护理项目详细信息")
     public R<NursingProject> getInfo(@ApiParam(value = "护理项目ID", required = true)
-                                   @PathVariable("id") Long id) {
-                return R.ok(nursingProjectService.selectNursingProjectById(id));
+                                     @PathVariable("id") Long id) {
+        return R.ok(nursingProjectService.selectNursingProjectById(id));
     }
 
     /**
@@ -115,8 +115,7 @@ public class NursingProjectController extends BaseController {
      */
     @GetMapping("/all")
     @ApiOperation(value = "查询所有护理项目")
-    public AjaxResult listAll()
-    {
+    public AjaxResult listAll() {
         List<NursingProjectVO> list = nursingProjectService.selectAll();
         return success(list);
     }

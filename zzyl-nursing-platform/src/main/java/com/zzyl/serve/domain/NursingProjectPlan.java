@@ -4,6 +4,7 @@ import com.zzyl.common.annotation.Excel;
 import com.zzyl.common.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
  * @author ruoyi
  * @date 2025-07-13
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

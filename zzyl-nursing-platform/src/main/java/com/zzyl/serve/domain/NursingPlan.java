@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import com.zzyl.common.annotation.Excel;
 import com.zzyl.common.core.domain.BaseEntity;
@@ -14,6 +15,7 @@ import com.zzyl.common.core.domain.BaseEntity;
  * @author Adrian
  * @date 2025-07-11
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
