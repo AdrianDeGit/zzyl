@@ -96,8 +96,8 @@ public class NursingPlanController extends BaseController {
     @Log(title = "护理计划", businessType = BusinessType.UPDATE)
     @PutMapping
     @ApiOperation("修改护理计划")
-    public AjaxResult edit(@ApiParam(value = "护理计划实体", required = true) @RequestBody NursingPlan nursingPlan) {
-        return toAjax(nursingPlanService.updateNursingPlan(nursingPlan));
+    public AjaxResult edit(@ApiParam(value = "护理计划实体", required = true) @RequestBody NursingPlanDTO nursingPlanDTO) {
+        return toAjax(nursingPlanService.updateNursingPlan(nursingPlanDTO));
     }
 
     /**

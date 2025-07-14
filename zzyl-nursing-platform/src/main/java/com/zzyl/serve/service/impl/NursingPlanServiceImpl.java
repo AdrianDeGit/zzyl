@@ -8,6 +8,7 @@ import com.zzyl.serve.mapper.NursingProjectPlanMapper;
 import com.zzyl.serve.dto.NursingPlanDTO;
 import com.zzyl.serve.vo.NursingPlanVO;
 import com.zzyl.serve.vo.NursingProjectPlanVO;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.zzyl.serve.mapper.NursingPlanMapper;
@@ -78,20 +79,36 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
         nursingPlanMapper.insertNursingPlan(nursingPlan);
 
         // 批量保存护理项目计划关系
-        int count = nursingProjectPlanMapper.batchInsert(nursingPlanDTO.getProjectPlans(), nursingPlan.getId().longValue());
+        int count = nursingProjectPlanMapper.batchInsert(nursingPlanDTO.getProjectPlans(), nursingPlan.getId());
         return count == 0 ? 0 : 1;
     }
 
     /**
      * 修改护理计划
      *
-     * @param nursingPlan 护理计划
+     * @param nursingPlanDTO 护理计划
      * @return 结果
      */
     @Override
-    public int updateNursingPlan(NursingPlan nursingPlan) {
-        nursingPlan.setUpdateTime(DateUtils.getNowDate());
-        return updateById(nursingPlan) ? 1 : 0;
+    public int updateNursingPlan(NursingPlanDTO nursingPlanDTO) {
+        try {
+            // 属性拷贝
+            NursingPlan nursingPlan = new NursingPlan();
+            BeanUtils.copyProperties(nursingPlanDTO, nursingPlan);
+
+            // 判断dto中的项目列表为空，如果不为空，则先删除护理计划与护理项目的关系，然后重新批量添加
+            if (nursingPlanDTO.getProjectPlans() != null || !nursingPlanDTO.getProjectPlans().isEmpty()) {
+                // 删除护理计划对应的护理项目列表
+                nursingProjectPlanMapper.deleteByPlanId(nursingPlan.getId());
+                // 批量保存护理计划对应的护理项目列表
+                nursingProjectPlanMapper.batchInsert(nursingPlanDTO.getProjectPlans(), nursingPlan.getId());
+            }
+
+            // 不管项目列表是否为空，都要修改护理计划
+            return nursingPlanMapper.updateNursingPlan(nursingPlan);
+        } catch (BeansException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

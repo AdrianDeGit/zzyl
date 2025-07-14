@@ -25,7 +25,7 @@ public class NursingPlan extends BaseEntity {
      * 编号
      */
     @ApiModelProperty(value = "主键ID")
-    private Integer id;
+    private Long id;
     /**
      * 排序号
      */

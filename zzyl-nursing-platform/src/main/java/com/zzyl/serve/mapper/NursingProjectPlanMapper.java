@@ -3,8 +3,9 @@ package com.zzyl.serve.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zzyl.serve.domain.NursingProjectPlan;
 import com.zzyl.serve.vo.NursingProjectPlanVO;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -83,4 +84,7 @@ public interface NursingProjectPlanMapper extends BaseMapper<NursingProjectPlan>
      * @return
      */
     List<NursingProjectPlanVO> selectByPlanId(Integer id);
+
+    @Delete("delete from nursing_project_plan where plan_id = #{planId}")
+    void deleteByPlanId(Long planId);
 }

@@ -41,10 +41,10 @@ public interface INursingPlanService extends IService<NursingPlan>
     /**
      * 修改护理计划
      * 
-     * @param nursingPlan 护理计划
+     * @param nursingPlanDTO 护理计划
      * @return 结果
      */
-    public int updateNursingPlan(NursingPlan nursingPlan);
+    public int updateNursingPlan(NursingPlanDTO nursingPlanDTO);
 
     /**
      * 批量删除护理计划
