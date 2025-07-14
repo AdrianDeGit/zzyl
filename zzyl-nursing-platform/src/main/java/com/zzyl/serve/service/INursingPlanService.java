@@ -52,7 +52,7 @@ public interface INursingPlanService extends IService<NursingPlan>
      * @param ids 需要删除的护理计划主键集合
      * @return 结果
      */
-    public int deleteNursingPlanByIds(Integer[] ids);
+    public int deleteNursingPlanByIds(Long[] ids);
 
     /**
      * 删除护理计划信息

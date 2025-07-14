@@ -118,7 +118,8 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
      * @return 结果
      */
     @Override
-    public int deleteNursingPlanByIds(Integer[] ids) {
+    public int deleteNursingPlanByIds(Long[] ids) {
+        nursingProjectPlanMapper.deleteNursingProjectPlanByIds(ids);
         return nursingPlanMapper.deleteNursingPlanByIds(ids);
     }
 

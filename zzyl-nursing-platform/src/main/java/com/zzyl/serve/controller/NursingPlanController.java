@@ -107,7 +107,7 @@ public class NursingPlanController extends BaseController {
     @Log(title = "护理计划", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     @ApiOperation("删除护理计划")
-    public AjaxResult remove(@ApiParam(value = "护理计划IDS", required = true) @PathVariable Integer[] ids) {
+    public AjaxResult remove(@ApiParam(value = "护理计划IDS", required = true) @PathVariable Long[] ids) {
         return toAjax(nursingPlanService.deleteNursingPlanByIds(ids));
     }
 }

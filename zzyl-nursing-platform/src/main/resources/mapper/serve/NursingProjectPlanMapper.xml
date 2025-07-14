@@ -117,7 +117,7 @@
     </delete>
 
     <delete id="deleteNursingProjectPlanByIds" parameterType="String">
-        delete from nursing_project_plan where id in
+        delete from nursing_project_plan where plan_id  in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

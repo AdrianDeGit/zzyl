@@ -60,5 +60,5 @@ public interface NursingPlanMapper extends BaseMapper<NursingPlan>
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteNursingPlanByIds(Integer[] ids);
+    public int deleteNursingPlanByIds(Long[] ids);
 }
