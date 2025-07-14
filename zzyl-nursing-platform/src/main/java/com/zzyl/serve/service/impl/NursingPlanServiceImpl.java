@@ -97,7 +97,7 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
             BeanUtils.copyProperties(nursingPlanDTO, nursingPlan);
 
             // 判断dto中的项目列表为空，如果不为空，则先删除护理计划与护理项目的关系，然后重新批量添加
-            if (nursingPlanDTO.getProjectPlans() != null || !nursingPlanDTO.getProjectPlans().isEmpty()) {
+            if (nursingPlanDTO.getProjectPlans() != null && !nursingPlanDTO.getProjectPlans().isEmpty()) {
                 // 删除护理计划对应的护理项目列表
                 nursingProjectPlanMapper.deleteByPlanId(nursingPlan.getId());
                 // 批量保存护理计划对应的护理项目列表
@@ -105,7 +105,8 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
             }
 
             // 不管项目列表是否为空，都要修改护理计划
-            return nursingPlanMapper.updateNursingPlan(nursingPlan);
+            int updated = nursingPlanMapper.updateNursingPlan(nursingPlan);
+            return updated;
         } catch (BeansException e) {
             throw new RuntimeException(e);
         }
