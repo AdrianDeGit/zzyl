@@ -389,92 +389,6 @@ LOCK TABLES `gen_table_column` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `nursing_level`
---
-
-DROP TABLE IF EXISTS `nursing_level`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `nursing_level`
-(
-    `id`          int                                                          NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    `name`        varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '等级名称',
-    `lplan_id`    int                                                          NOT NULL COMMENT '护理计划ID',
-    `fee`         decimal(10, 2)                                               NOT NULL COMMENT '护理费用',
-    `status`      tinyint(1)                                                   NOT NULL DEFAULT '1' COMMENT '状态（0：禁用，1：启用）',
-    `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci         DEFAULT NULL COMMENT '等级说明',
-    `create_time` datetime                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`   bigint                                                                DEFAULT NULL COMMENT '创建人id',
-    `update_by`   bigint                                                                DEFAULT NULL COMMENT '更新人id',
-    `remark`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci         DEFAULT NULL COMMENT '备注',
-    `update_time` datetime                                                              DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `name` (`name`) USING BTREE
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 79
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci
-  ROW_FORMAT = DYNAMIC COMMENT ='护理等级表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `nursing_level`
---
-
-LOCK TABLES `nursing_level` WRITE;
-/*!40000 ALTER TABLE `nursing_level`
-    DISABLE KEYS */;
-INSERT INTO `nursing_level`
-VALUES (76, '2号护理等级', 134, 1500.00, 1, '1223', '2024-08-14 16:33:16', NULL, NULL, NULL, '2024-08-29 16:57:23'),
-       (77, '1号护理计划', 133, 2000.00, 1, '1223', '2024-08-20 11:18:21', NULL, NULL, NULL, '2024-08-29 16:57:05'),
-       (78, '3号护理等级', 135, 3000.00, 1, '无', '2024-08-29 16:58:00', NULL, NULL, NULL, '2024-08-29 08:56:55');
-/*!40000 ALTER TABLE `nursing_level`
-    ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `nursing_plan`
---
-
-DROP TABLE IF EXISTS `nursing_plan`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `nursing_plan`
-(
-    `id`          int                                                           NOT NULL AUTO_INCREMENT COMMENT '编号',
-    `sort_no`     int                                                                    DEFAULT NULL COMMENT '排序号',
-    `plan_name`   varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '名称',
-    `status`      tinyint                                                       NOT NULL DEFAULT '0' COMMENT '状态 0禁用 1启用',
-    `create_time` datetime                                                      NOT NULL COMMENT '创建时间',
-    `update_time` datetime                                                               DEFAULT NULL COMMENT '更新时间',
-    `create_by`   bigint                                                                 DEFAULT NULL COMMENT '创建人id',
-    `update_by`   bigint                                                                 DEFAULT NULL COMMENT '更新人id',
-    `remark`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci          DEFAULT NULL COMMENT '备注',
-    PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `plan_name` (`plan_name`) USING BTREE
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 136
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci
-  ROW_FORMAT = DYNAMIC COMMENT ='护理计划表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `nursing_plan`
---
-
-LOCK TABLES `nursing_plan` WRITE;
-/*!40000 ALTER TABLE `nursing_plan`
-    DISABLE KEYS */;
-INSERT INTO `nursing_plan`
-VALUES (133, 1, '1号护理计划', 1, '2024-08-19 19:17:31', NULL, NULL, NULL, NULL),
-       (134, 1, '2号护理计划', 1, '2024-08-19 19:36:10', NULL, NULL, NULL, NULL),
-       (135, 1, '3号护理计划', 1, '2024-08-29 16:56:39', NULL, NULL, NULL, NULL);
-/*!40000 ALTER TABLE `nursing_plan`
-    ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `nursing_project`
 --
 
@@ -543,6 +457,96 @@ VALUES (1, '修剪指甲', 1, '次', 10.00,
 /*!40000 ALTER TABLE `nursing_project`
     ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+
+--
+-- Table structure for table `nursing_plan`
+--
+
+DROP TABLE IF EXISTS `nursing_plan`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `nursing_plan`
+(
+    `id`          int                                                           NOT NULL AUTO_INCREMENT COMMENT '编号',
+    `sort_no`     int                                                                    DEFAULT NULL COMMENT '排序号',
+    `plan_name`   varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '名称',
+    `status`      tinyint                                                       NOT NULL DEFAULT '0' COMMENT '状态 0禁用 1启用',
+    `create_time` datetime                                                      NOT NULL COMMENT '创建时间',
+    `update_time` datetime                                                               DEFAULT NULL COMMENT '更新时间',
+    `create_by`   bigint                                                                 DEFAULT NULL COMMENT '创建人id',
+    `update_by`   bigint                                                                 DEFAULT NULL COMMENT '更新人id',
+    `remark`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci          DEFAULT NULL COMMENT '备注',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `plan_name` (`plan_name`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 136
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci
+  ROW_FORMAT = DYNAMIC COMMENT ='护理计划表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nursing_plan`
+--
+
+LOCK TABLES `nursing_plan` WRITE;
+/*!40000 ALTER TABLE `nursing_plan`
+    DISABLE KEYS */;
+INSERT INTO `nursing_plan`
+VALUES (133, 1, '1号护理计划', 1, '2024-08-19 19:17:31', NULL, NULL, NULL, NULL),
+       (134, 1, '2号护理计划', 1, '2024-08-19 19:36:10', NULL, NULL, NULL, NULL),
+       (135, 1, '3号护理计划', 1, '2024-08-29 16:56:39', NULL, NULL, NULL, NULL);
+/*!40000 ALTER TABLE `nursing_plan`
+    ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
+-- Table structure for table `nursing_level`
+--
+
+DROP TABLE IF EXISTS `nursing_level`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `nursing_level`
+(
+    `id`          int                                                          NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `name`        varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '等级名称',
+    `lplan_id`    int                                                          NOT NULL COMMENT '护理计划ID',
+    `fee`         decimal(10, 2)                                               NOT NULL COMMENT '护理费用',
+    `status`      tinyint(1)                                                   NOT NULL DEFAULT '1' COMMENT '状态（0：禁用，1：启用）',
+    `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci         DEFAULT NULL COMMENT '等级说明',
+    `create_time` datetime                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `create_by`   bigint                                                                DEFAULT NULL COMMENT '创建人id',
+    `update_by`   bigint                                                                DEFAULT NULL COMMENT '更新人id',
+    `remark`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci         DEFAULT NULL COMMENT '备注',
+    `update_time` datetime                                                              DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `name` (`name`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 79
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci
+  ROW_FORMAT = DYNAMIC COMMENT ='护理等级表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nursing_level`
+--
+
+LOCK TABLES `nursing_level` WRITE;
+/*!40000 ALTER TABLE `nursing_level`
+    DISABLE KEYS */;
+INSERT INTO `nursing_level`
+VALUES (76, '2号护理等级', 134, 1500.00, 1, '1223', '2024-08-14 16:33:16', NULL, NULL, NULL, '2024-08-29 16:57:23'),
+       (77, '1号护理计划', 133, 2000.00, 1, '1223', '2024-08-20 11:18:21', NULL, NULL, NULL, '2024-08-29 16:57:05'),
+       (78, '3号护理等级', 135, 3000.00, 1, '无', '2024-08-29 16:58:00', NULL, NULL, NULL, '2024-08-29 08:56:55');
+/*!40000 ALTER TABLE `nursing_level`
+    ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 --
 -- Table structure for table `nursing_project_plan`
@@ -1509,6 +1513,7 @@ VALUES (1, '系统管理', 0, 6, 'system', NULL, '', '', 1, 0, 'M', '0', '0', ''
         '2024-08-14 02:48:23', '', NULL, ''),
        (2000, '服务管理', 0, 4, 'serve', NULL, NULL, '', 1, 0, 'M', '0', '0', '', 'example', 'admin',
         '2024-08-14 02:59:12', 'admin', '2024-08-29 06:42:37', ''),
+       -- 护理项目（先插入）
        (2001, '护理项目', 2000, 1, 'project', 'serve/project/index', NULL, '', 1, 0, 'C', '0', '0',
         'serve:project:list', 'color', 'admin', '2024-08-14 03:00:15', 'admin', '2024-08-22 12:16:12', '护理项目菜单'),
        (2002, '护理项目查询', 2001, 1, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'serve:project:query', '#', 'admin',
@@ -1521,19 +1526,8 @@ VALUES (1, '系统管理', 0, 6, 'system', NULL, '', '', 1, 0, 'M', '0', '0', ''
         '2024-08-14 03:00:15', '', NULL, ''),
        (2006, '护理项目导出', 2001, 5, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'serve:project:export', '#', 'admin',
         '2024-08-14 03:00:15', '', NULL, ''),
-       (2007, '护理等级', 2000, 1, 'level', 'serve/level/index', NULL, '', 1, 0, 'C', '0', '0', 'serve:level:list',
-        'guide', 'admin', '2024-08-14 08:29:05', 'admin', '2024-10-03 10:49:54', '护理等级菜单'),
-       (2008, '护理等级查询', 2007, 1, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'serve:level:query', '#', 'admin',
-        '2024-08-14 08:29:05', 'admin', '2024-10-03 10:47:20', ''),
-       (2009, '护理等级新增', 2007, 2, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'serve:level:add', '#', 'admin',
-        '2024-08-14 08:29:05', 'admin', '2024-10-03 10:47:27', ''),
-       (2010, '护理等级修改', 2007, 3, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'serve:level:edit', '#', 'admin',
-        '2024-08-14 08:29:05', 'admin', '2024-10-03 10:47:32', ''),
-       (2011, '护理等级删除', 2007, 4, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'serve:level:remove', '#', 'admin',
-        '2024-08-14 08:29:05', 'admin', '2024-10-03 10:47:37', ''),
-       (2012, '护理等级导出', 2007, 5, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'serve:level:export', '#', 'admin',
-        '2024-08-14 08:29:05', 'admin', '2024-10-03 10:47:42', ''),
-       (2013, '护理计划', 2000, 1, 'plan', 'serve/plan/index', NULL, '', 1, 0, 'C', '0', '0', 'serve:plan:list',
+       -- 护理计划（接着插入）
+       (2013, '护理计划', 2000, 2, 'plan', 'serve/plan/index', NULL, '', 1, 0, 'C', '0', '0', 'serve:plan:list',
         'druid', 'admin', '2024-08-14 08:29:10', 'admin', '2024-10-03 10:49:49', '护理计划菜单'),
        (2014, '护理计划查询', 2013, 1, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'nursing:nursingPlan:query', '#',
         'admin', '2024-08-14 08:29:10', '', NULL, ''),
@@ -1545,6 +1539,26 @@ VALUES (1, '系统管理', 0, 6, 'system', NULL, '', '', 1, 0, 'M', '0', '0', ''
         'admin', '2024-08-14 08:29:10', '', NULL, ''),
        (2018, '护理计划导出', 2013, 5, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'nursing:nursingPlan:export', '#',
         'admin', '2024-08-14 08:29:10', '', NULL, ''),
+       -- 护理等级（最后插入）
+       (2007, '护理等级', 2000, 3, 'level', 'serve/level/index', NULL, '', 1, 0, 'C', '0', '0', 'serve:level:list',
+        'guide', 'admin', '2024-08-14 08:29:05', 'admin', '2024-10-03 10:49:54', '护理等级菜单'),
+       (2008, '护理等级查询', 2007, 1, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'serve:level:query', '#', 'admin',
+        '2024-08-14 08:29:05', 'admin', '2024-10-03 10:47:20', ''),
+       (2009, '护理等级新增', 2007, 2, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'serve:level:add', '#', 'admin',
+        '2024-08-14 08:29:05', 'admin', '2024-10-03 10:47:27', ''),
+       (2010, '护理等级修改', 2007, 3, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'serve:level:edit', '#', 'admin',
+        '2024-08-14 08:29:05', 'admin', '2024-10-03 10:47:32', ''),
+       (2011, '护理等级删除', 2007, 4, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'serve:level:remove', '#', 'admin',
+        '2024-08-14 08:29:05', 'admin', '2024-10-03 10:47:37', ''),
+       (2012, '护理等级导出', 2007, 5, '#', '', NULL, '', 1, 0, 'F', '0', '0', 'serve:level:export', '#', 'admin',
+        '2024-08-14 08:29:05', 'admin', '2024-10-03 10:47:42', ''),
+       -- 服务管理下其他原有内容（顺序不变）
+       (2043, '任务安排详情', 2000, 1, 'arrangeDetails', 'serve/arrange/details', NULL, '', 1, 0, 'C', '1', '0', '',
+        '#', 'admin', '2024-08-29 06:53:37', 'admin', '2024-10-03 10:48:50', ''),
+       (2041, '负责老人', 2000, 4, 'oldPeople', 'serve/oldPeople/index', NULL, '', 1, 0, 'C', '0', '0', '', 'peoples',
+        'admin', '2024-08-29 06:52:12', 'admin', '2024-10-03 10:48:56', ''),
+       (2042, '任务安排', 2000, 5, 'arrange', 'serve/arrange/index', NULL, '', 1, 0, 'C', '0', '0', '', 'redis-list',
+        'admin', '2024-08-29 06:53:06', 'admin', '2024-10-03 10:49:01', ''),
        (2019, '在住管理', 0, 3, 'liveIn', NULL, NULL, '', 1, 0, 'M', '0', '0', '', 'date-range', 'admin',
         '2024-08-22 06:49:19', 'admin', '2024-08-29 06:42:27', ''),
        (2020, '房型设置', 2019, 0, 'houseSet', 'nursing/roomType/index', NULL, '', 1, 0, 'C', '0', '0', NULL, 'size',
@@ -1577,12 +1591,6 @@ VALUES (1, '系统管理', 0, 6, 'system', NULL, '', '', 1, 0, 'M', '0', '0', ''
         NULL, 'eye', 'admin', '2024-08-29 06:48:51', '', NULL, ''),
        (2040, '评估详情', 2022, 2, 'healthDetails', 'nursing/healthAssessment/details', NULL, '', 1, 0, 'C', '1', '0',
         '', '#', 'admin', '2024-08-29 06:49:53', 'admin', '2024-08-29 06:50:06', ''),
-       (2041, '负责老人', 2000, 4, 'oldPeople', 'serve/oldPeople/index', NULL, '', 1, 0, 'C', '0', '0', '', 'peoples',
-        'admin', '2024-08-29 06:52:12', 'admin', '2024-10-03 10:48:56', ''),
-       (2042, '任务安排', 2000, 5, 'arrange', 'serve/arrange/index', NULL, '', 1, 0, 'C', '0', '0', '', 'redis-list',
-        'admin', '2024-08-29 06:53:06', 'admin', '2024-10-03 10:49:01', ''),
-       (2043, '任务安排详情', 2000, 1, 'arrangeDetails', 'serve/arrange/details', NULL, '', 1, 0, 'C', '1', '0', '',
-        '#', 'admin', '2024-08-29 06:53:37', 'admin', '2024-10-03 10:48:50', ''),
        (2044, '设备管理', 2037, 0, 'device', 'nursing/device/index', NULL, '', 1, 0, 'C', '0', '0', '', 'tool', 'admin',
         '2024-08-29 06:54:54', 'admin', '2024-08-29 07:13:42', ''),
        (2045, '设备详情', 2037, 0, 'details', 'nursing/device/details', NULL, '', 1, 0, 'C', '1', '0', NULL, '#',

@@ -19,14 +19,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectNursingLevelVo">
-        select id, name, lplan_id, fee, status, description, create_time, create_by, update_by, remark, update_time from nursing_level
+        select id,
+               name,
+               lplan_id,
+               fee,
+               status,
+               description,
+               create_time,
+               create_by,
+               update_by,
+               remark,
+               update_time
+        from nursing_level
+        order by name
     </sql>
 
     <select id="selectNursingLevelList" parameterType="NursingLevel" resultMap="NursingLevelResult">
         <include refid="selectNursingLevelVo"/>
-        <where>  
-            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="status != null "> and status = #{status}</if>
+        <where>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="status != null ">and status = #{status}</if>
         </where>
     </select>
     
