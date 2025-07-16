@@ -39,6 +39,7 @@
         <lombok.version>1.18.22</lombok.version>
         <mybatis-plus-spring-boot.version>3.5.2</mybatis-plus-spring-boot.version>
         <aliyun.sdk.oss>3.17.4</aliyun.sdk.oss>
+        <hutool.version>5.8.25</hutool.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -265,6 +266,13 @@
                 <groupId>com.zzyl</groupId>
                 <artifactId>zzyl-oss</artifactId>
                 <version>${zzyl.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
