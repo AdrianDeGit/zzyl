@@ -103,7 +103,7 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
     public List<NursingLevel> listAll() {
         LambdaQueryWrapper<NursingLevel> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(NursingLevel::getStatus, 1)
-                .groupBy(NursingLevel::getName);
+                .orderByAsc(NursingLevel::getName);
         return list(queryWrapper);
     }
 }
