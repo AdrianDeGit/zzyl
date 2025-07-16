@@ -1,7 +1,9 @@
 package com.zzyl.serve.service.impl;
 
 import java.util.List;
-        import com.zzyl.common.utils.DateUtils;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.zzyl.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.zzyl.serve.mapper.NursingLevelMapper;
@@ -10,6 +12,7 @@ import com.zzyl.serve.service.INursingLevelService;
 
 import com.zzyl.serve.mapper.NursingLevelMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
 import java.util.Arrays;
 
 /**
@@ -19,8 +22,7 @@ import java.util.Arrays;
  * @date 2025-07-11
  */
 @Service
-public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, NursingLevel> implements INursingLevelService
-{
+public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, NursingLevel> implements INursingLevelService {
     @Autowired
     private NursingLevelMapper nursingLevelMapper;
 
@@ -31,9 +33,8 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
      * @return 护理等级
      */
     @Override
-    public NursingLevel selectNursingLevelById(Long id)
-    {
-                return getById(id);
+    public NursingLevel selectNursingLevelById(Long id) {
+        return getById(id);
     }
 
     /**
@@ -43,8 +44,7 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
      * @return 护理等级
      */
     @Override
-    public List<NursingLevel> selectNursingLevelList(NursingLevel nursingLevel)
-    {
+    public List<NursingLevel> selectNursingLevelList(NursingLevel nursingLevel) {
         return nursingLevelMapper.selectNursingLevelList(nursingLevel);
     }
 
@@ -55,10 +55,9 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
      * @return 结果
      */
     @Override
-    public int insertNursingLevel(NursingLevel nursingLevel)
-    {
-                // nursingLevel.setCreateTime(DateUtils.getNowDate());
-                        return save(nursingLevel) ? 1 : 0;
+    public int insertNursingLevel(NursingLevel nursingLevel) {
+        // nursingLevel.setCreateTime(DateUtils.getNowDate());
+        return save(nursingLevel) ? 1 : 0;
     }
 
     /**
@@ -68,10 +67,9 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
      * @return 结果
      */
     @Override
-    public int updateNursingLevel(NursingLevel nursingLevel)
-    {
-                nursingLevel.setUpdateTime(DateUtils.getNowDate());
-                return updateById(nursingLevel) ? 1 : 0;
+    public int updateNursingLevel(NursingLevel nursingLevel) {
+        nursingLevel.setUpdateTime(DateUtils.getNowDate());
+        return updateById(nursingLevel) ? 1 : 0;
     }
 
     /**
@@ -81,8 +79,7 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
      * @return 结果
      */
     @Override
-    public int deleteNursingLevelByIds(Long[] ids)
-    {
+    public int deleteNursingLevelByIds(Long[] ids) {
         return nursingLevelMapper.deleteNursingLevelByIds(ids);
     }
 
@@ -93,8 +90,20 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
      * @return 结果
      */
     @Override
-    public int deleteNursingLevelById(Long id)
-    {
-                return removeById(id) ? 1 : 0;
+    public int deleteNursingLevelById(Long id) {
+        return removeById(id) ? 1 : 0;
+    }
+
+    /**
+     * 查询所有护理等级
+     *
+     * @return 护理等级列表
+     */
+    @Override
+    public List<NursingLevel> listAll() {
+        LambdaQueryWrapper<NursingLevel> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(NursingLevel::getStatus, 1)
+                .groupBy(NursingLevel::getName);
+        return list(queryWrapper);
     }
 }

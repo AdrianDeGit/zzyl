@@ -108,4 +108,11 @@ public class NursingLevelController extends BaseController {
     public AjaxResult remove(@ApiParam(value = "护理等级IDS", required = true) @PathVariable Long[] ids) {
         return toAjax(nursingLevelService.deleteNursingLevelByIds(ids));
     }
+
+    @ApiOperation(value = "获取所有护理等级")
+    @GetMapping("/all")
+    public R<List<NursingLevel>> listAll() {
+        List<NursingLevel> list = nursingLevelService.listAll();
+        return R.ok(list);
+    }
 }
