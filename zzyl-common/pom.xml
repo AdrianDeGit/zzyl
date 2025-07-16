@@ -141,6 +141,11 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-annotation</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

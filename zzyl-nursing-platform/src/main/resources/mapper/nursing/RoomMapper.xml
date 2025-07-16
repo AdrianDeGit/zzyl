@@ -130,6 +130,14 @@
         order by r.sort, r.create_time desc
     </select>
 
+    <select id="getRoomById" resultType="com.zzyl.nursing.vo.RoomVO">
+        select f.name floorName, f.id floorId, r.id roomId, r.code, rt.price
+        from floor f
+                 left join room r on f.id = r.floor_id
+                 left join room_type rt on rt.name = r.type_name
+        where r.id = #{id}
+    </select>
+
     <insert id="insertRoom" parameterType="Room" useGeneratedKeys="true" keyProperty="id">
         insert into room
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -100,4 +100,8 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements IR
         return roomMapper.selectByFloorIdWithNur(floorId);
     }
 
+    @Override
+    public RoomVO getRoomById(Long id) {
+        return roomMapper.getRoomById(id);
+    }
 }
