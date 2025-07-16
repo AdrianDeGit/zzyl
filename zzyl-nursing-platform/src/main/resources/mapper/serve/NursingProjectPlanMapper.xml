@@ -18,7 +18,7 @@
         <result property="remark" column="remark"/>
     </resultMap>
 
-    <sql id="selectNursingProjectPlanVo">
+    <sql id="selectNursingProjectPlanVO">
         select id,
                plan_id,
                project_id,
@@ -34,7 +34,7 @@
     </sql>
 
     <select id="selectNursingProjectPlanList" parameterType="NursingProjectPlan" resultMap="NursingProjectPlanResult">
-        <include refid="selectNursingProjectPlanVo"/>
+        <include refid="selectNursingProjectPlanVO"/>
         <where>
             <if test="planId != null ">and plan_id = #{planId}</if>
             <if test="projectId != null ">and project_id = #{projectId}</if>
@@ -45,7 +45,7 @@
     </select>
 
     <select id="selectNursingProjectPlanById" parameterType="Long" resultMap="NursingProjectPlanResult">
-        <include refid="selectNursingProjectPlanVo"/>
+        <include refid="selectNursingProjectPlanVO"/>
         where id = #{id}
     </select>
 

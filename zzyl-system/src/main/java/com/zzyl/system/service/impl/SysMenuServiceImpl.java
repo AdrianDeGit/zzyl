@@ -18,8 +18,8 @@ import com.zzyl.common.core.domain.entity.SysRole;
 import com.zzyl.common.core.domain.entity.SysUser;
 import com.zzyl.common.utils.SecurityUtils;
 import com.zzyl.common.utils.StringUtils;
-import com.zzyl.system.domain.vo.MetaVo;
-import com.zzyl.system.domain.vo.RouterVo;
+import com.zzyl.system.domain.vo.MetaVO;
+import com.zzyl.system.domain.vo.RouterVO;
 import com.zzyl.system.mapper.SysMenuMapper;
 import com.zzyl.system.mapper.SysRoleMapper;
 import com.zzyl.system.mapper.SysRoleMenuMapper;
@@ -162,18 +162,18 @@ public class SysMenuServiceImpl implements ISysMenuService
      * @return 路由列表
      */
     @Override
-    public List<RouterVo> buildMenus(List<SysMenu> menus)
+    public List<RouterVO> buildMenus(List<SysMenu> menus)
     {
-        List<RouterVo> routers = new LinkedList<RouterVo>();
+        List<RouterVO> routers = new LinkedList<RouterVO>();
         for (SysMenu menu : menus)
         {
-            RouterVo router = new RouterVo();
+            RouterVO router = new RouterVO();
             router.setHidden("1".equals(menu.getVisible()));
             router.setName(getRouteName(menu));
             router.setPath(getRouterPath(menu));
             router.setComponent(getComponent(menu));
             router.setQuery(menu.getQuery());
-            router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
+            router.setMeta(new MetaVO(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
             List<SysMenu> cMenus = menu.getChildren();
             if (StringUtils.isNotEmpty(cMenus) && UserConstants.TYPE_DIR.equals(menu.getMenuType()))
             {
@@ -184,27 +184,27 @@ public class SysMenuServiceImpl implements ISysMenuService
             else if (isMenuFrame(menu))
             {
                 router.setMeta(null);
-                List<RouterVo> childrenList = new ArrayList<RouterVo>();
-                RouterVo children = new RouterVo();
+                List<RouterVO> childrenList = new ArrayList<RouterVO>();
+                RouterVO children = new RouterVO();
                 children.setPath(menu.getPath());
                 children.setComponent(menu.getComponent());
                 children.setName(getRouteName(menu.getRouteName(), menu.getPath()));
-                children.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
+                children.setMeta(new MetaVO(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
                 children.setQuery(menu.getQuery());
                 childrenList.add(children);
                 router.setChildren(childrenList);
             }
             else if (menu.getParentId().intValue() == 0 && isInnerLink(menu))
             {
-                router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon()));
+                router.setMeta(new MetaVO(menu.getMenuName(), menu.getIcon()));
                 router.setPath("/");
-                List<RouterVo> childrenList = new ArrayList<RouterVo>();
-                RouterVo children = new RouterVo();
+                List<RouterVO> childrenList = new ArrayList<RouterVO>();
+                RouterVO children = new RouterVO();
                 String routerPath = innerLinkReplaceEach(menu.getPath());
                 children.setPath(routerPath);
                 children.setComponent(UserConstants.INNER_LINK);
                 children.setName(getRouteName(menu.getRouteName(), routerPath));
-                children.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), menu.getPath()));
+                children.setMeta(new MetaVO(menu.getMenuName(), menu.getIcon(), menu.getPath()));
                 childrenList.add(children);
                 router.setChildren(childrenList);
             }

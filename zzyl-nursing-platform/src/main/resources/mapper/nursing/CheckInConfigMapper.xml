@@ -25,12 +25,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark"    column="remark"    />
     </resultMap>
 
-    <sql id="selectCheckInConfigVo">
+    <sql id="selectCheckInConfigVO">
         select id, check_in_id, nursing_level_id, nursing_level_name, fee_start_date, fee_end_date, deposit, nursing_fee, bed_fee, insurance_payment, government_subsidy, other_fees, sort_order, create_time, update_time, create_by, update_by, remark from check_in_config
     </sql>
 
     <select id="selectCheckInConfigList" parameterType="CheckInConfig" resultMap="CheckInConfigResult">
-        <include refid="selectCheckInConfigVo"/>
+        <include refid="selectCheckInConfigVO"/>
         <where>  
             <if test="checkInId != null "> and check_in_id = #{checkInId}</if>
             <if test="nursingLevelId != null "> and nursing_level_id = #{nursingLevelId}</if>
@@ -48,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectCheckInConfigById" parameterType="Long" resultMap="CheckInConfigResult">
-        <include refid="selectCheckInConfigVo"/>
+        <include refid="selectCheckInConfigVO"/>
         where id = #{id}
     </select>
 

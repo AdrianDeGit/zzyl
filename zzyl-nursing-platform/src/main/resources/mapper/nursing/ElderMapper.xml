@@ -25,12 +25,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="bedId"    column="bed_id"    />
     </resultMap>
 
-    <sql id="selectElderVo">
+    <sql id="selectElderVO">
         select id, name, image, id_card_no, sex, status, phone, birthday, address, id_card_national_emblem_img, id_card_portrait_img, create_time, update_time, create_by, update_by, remark, bed_number, bed_id from elder
     </sql>
 
     <select id="selectElderList" parameterType="Elder" resultMap="ElderResult">
-        <include refid="selectElderVo"/>
+        <include refid="selectElderVO"/>
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="image != null  and image != ''"> and image = #{image}</if>
@@ -48,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectElderById" parameterType="Long" resultMap="ElderResult">
-        <include refid="selectElderVo"/>
+        <include refid="selectElderVO"/>
         where id = #{id}
     </select>
 

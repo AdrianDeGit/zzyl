@@ -28,13 +28,13 @@
 		<result property="remark"         column="remark"         />
 	</resultMap>
 
-	<sql id="selectMenuVo">
+	<sql id="selectMenuVO">
         select menu_id, menu_name, parent_id, order_num, path, component, `query`, route_name, is_frame, is_cache, menu_type, visible, status, ifnull(perms,'') as perms, icon, create_time 
 		from sys_menu
     </sql>
     
     <select id="selectMenuList" parameterType="SysMenu" resultMap="SysMenuResult">
-		<include refid="selectMenuVo"/>
+		<include refid="selectMenuVO"/>
 		<where>
 			<if test="menuName != null and menuName != ''">
 				AND menu_name like concat('%', #{menuName}, '%')
@@ -120,7 +120,7 @@
 	</select>
 	
 	<select id="selectMenuById" parameterType="Long" resultMap="SysMenuResult">
-		<include refid="selectMenuVo"/>
+		<include refid="selectMenuVO"/>
 		where menu_id = #{menuId}
 	</select>
 	
@@ -129,7 +129,7 @@
 	</select>
 	
 	<select id="checkMenuNameUnique" parameterType="SysMenu" resultMap="SysMenuResult">
-		<include refid="selectMenuVo"/>
+		<include refid="selectMenuVO"/>
 		where menu_name=#{menuName} and parent_id = #{parentId} limit 1
 	</select>
 	

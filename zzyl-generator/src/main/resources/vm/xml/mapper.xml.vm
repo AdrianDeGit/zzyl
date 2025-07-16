@@ -22,12 +22,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 #end
 
-    <sql id="select${ClassName}Vo">
+    <sql id="select${ClassName}VO">
         select#foreach($column in $columns) $column.columnName#if($foreach.count != $columns.size()),#end#end from ${tableName}
     </sql>
 
     <select id="select${ClassName}List" parameterType="${ClassName}" resultMap="${ClassName}Result">
-        <include refid="select${ClassName}Vo"/>
+        <include refid="select${ClassName}VO"/>
         <where>  
 #foreach($column in $columns)
 #set($queryType=$column.queryType)
@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="select${ClassName}By${pkColumn.capJavaField}" parameterType="${pkColumn.javaType}" resultMap="#if($table.sub)${ClassName}${subClassName}Result#else${ClassName}Result#end">
 #if($table.crud || $table.tree)
-        <include refid="select${ClassName}Vo"/>
+        <include refid="select${ClassName}VO"/>
         where ${pkColumn.columnName} = #{${pkColumn.javaField}}
 #elseif($table.sub)
         select#foreach($column in $columns) $column.columnName#if($foreach.count != $columns.size()),#end#end

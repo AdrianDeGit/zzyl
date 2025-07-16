@@ -747,7 +747,7 @@ public class ExcelUtil<T>
                         if (subList != null && !subList.isEmpty())
                         {
                             int subIndex = 0;
-                            for (Object subVo : subList)
+                            for (Object subVO : subList)
                             {
                                 Row subRow = sheet.getRow(currentRowNum + subIndex);
                                 if (subRow == null)
@@ -759,7 +759,7 @@ public class ExcelUtil<T>
                                 for (Field subField : subFields)
                                 {
                                     Excel subExcel = subField.getAnnotation(Excel.class);
-                                    addCell(subExcel, subRow, (T) subVo, subField, subColumn++);
+                                    addCell(subExcel, subRow, (T) subVO, subField, subColumn++);
                                 }
                                 subIndex++;
                             }
@@ -1008,7 +1008,7 @@ public class ExcelUtil<T>
      * @param attr 注解相关
      * @param cell 单元格信息
      */
-    public void setCellVo(Object value, Excel attr, Cell cell)
+    public void setCellVO(Object value, Excel attr, Cell cell)
     {
         if (ColumnType.STRING == attr.cellType() || ColumnType.TEXT == attr.cellType())
         {
@@ -1175,7 +1175,7 @@ public class ExcelUtil<T>
                 else
                 {
                     // 设置列类型
-                    setCellVo(value, attr, cell);
+                    setCellVO(value, attr, cell);
                 }
                 addStatisticsData(column, Convert.toStr(value), attr);
             }

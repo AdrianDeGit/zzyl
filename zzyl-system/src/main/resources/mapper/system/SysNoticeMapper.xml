@@ -17,18 +17,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark"         column="remark"          />
     </resultMap>
     
-    <sql id="selectNoticeVo">
+    <sql id="selectNoticeVO">
         select notice_id, notice_title, notice_type, cast(notice_content as char) as notice_content, status, create_by, create_time, update_by, update_time, remark 
 		from sys_notice
     </sql>
     
     <select id="selectNoticeById" parameterType="Long" resultMap="SysNoticeResult">
-        <include refid="selectNoticeVo"/>
+        <include refid="selectNoticeVO"/>
         where notice_id = #{noticeId}
     </select>
     
     <select id="selectNoticeList" parameterType="SysNotice" resultMap="SysNoticeResult">
-        <include refid="selectNoticeVo"/>
+        <include refid="selectNoticeVO"/>
         <where>
 			<if test="noticeTitle != null and noticeTitle != ''">
 				AND notice_title like concat('%', #{noticeTitle}, '%')

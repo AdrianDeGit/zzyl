@@ -20,12 +20,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
-    <sql id="selectNursingProjectVo">
+    <sql id="selectNursingProjectVO">
         select id, name, order_no, unit, price, image, nursing_requirement, status, create_by, update_by, remark, create_time, update_time from nursing_project
     </sql>
 
     <select id="selectNursingProjectList" parameterType="NursingProject" resultMap="NursingProjectResult">
-        <include refid="selectNursingProjectVo"/>
+        <include refid="selectNursingProjectVO"/>
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="status != null "> and status = #{status}</if>
@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectNursingProjectById" parameterType="Long" resultMap="NursingProjectResult">
-        <include refid="selectNursingProjectVo"/>
+        <include refid="selectNursingProjectVO"/>
         where id = #{id}
     </select>
 

@@ -20,13 +20,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="updateTime" column="update_time" />
 	</resultMap>
 	
-	<sql id="selectDictDataVo">
+	<sql id="selectDictDataVO">
         select dict_code, dict_sort, dict_label, dict_value, dict_type, css_class, list_class, is_default, status, create_by, create_time, remark 
 		from sys_dict_data
     </sql>
 
 	<select id="selectDictDataList" parameterType="SysDictData" resultMap="SysDictDataResult">
-	    <include refid="selectDictDataVo"/>
+	    <include refid="selectDictDataVO"/>
 		<where>
 		    <if test="dictType != null and dictType != ''">
 				AND dict_type = #{dictType}
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectDictDataByType" parameterType="String" resultMap="SysDictDataResult">
-		<include refid="selectDictDataVo"/>
+		<include refid="selectDictDataVO"/>
 		where status = '0' and dict_type = #{dictType} order by dict_sort asc
 	</select>
 	
@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectDictDataById" parameterType="Long" resultMap="SysDictDataResult">
-		<include refid="selectDictDataVo"/>
+		<include refid="selectDictDataVO"/>
 		where dict_code = #{dictCode}
 	</select>
 	

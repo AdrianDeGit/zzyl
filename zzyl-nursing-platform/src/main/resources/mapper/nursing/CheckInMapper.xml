@@ -22,12 +22,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark"    column="remark"    />
     </resultMap>
 
-    <sql id="selectCheckInVo">
+    <sql id="selectCheckInVO">
         select id, elder_name, elder_id, id_card_no, start_date, end_date, nursing_level_name, bed_number, status, sort_order, create_time, update_time, create_by, update_by, remark from check_in
     </sql>
 
     <select id="selectCheckInList" parameterType="CheckIn" resultMap="CheckInResult">
-        <include refid="selectCheckInVo"/>
+        <include refid="selectCheckInVO"/>
         <where>  
             <if test="elderName != null  and elderName != ''"> and elder_name like concat('%', #{elderName}, '%')</if>
             <if test="elderId != null "> and elder_id = #{elderId}</if>
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectCheckInById" parameterType="Long" resultMap="CheckInResult">
-        <include refid="selectCheckInVo"/>
+        <include refid="selectCheckInVO"/>
         where id = #{id}
     </select>
 

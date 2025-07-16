@@ -28,12 +28,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="remark"    column="remark"    />
     </resultMap>
 
-    <sql id="selectContractVo">
+    <sql id="selectContractVO">
         select id, elder_id, contract_name, contract_number, agreement_path, third_party_phone, third_party_name, elder_name, start_date, end_date, status, sign_date, termination_submitter, termination_date, termination_agreement_path, sort_order, create_time, update_time, create_by, update_by, remark from contract
     </sql>
 
     <select id="selectContractList" parameterType="Contract" resultMap="ContractResult">
-        <include refid="selectContractVo"/>
+        <include refid="selectContractVO"/>
         <where>  
             <if test="elderId != null "> and elder_id = #{elderId}</if>
             <if test="contractName != null  and contractName != ''"> and contract_name like concat('%', #{contractName}, '%')</if>
@@ -54,7 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectContractById" parameterType="Long" resultMap="ContractResult">
-        <include refid="selectContractVo"/>
+        <include refid="selectContractVO"/>
         where id = #{id}
     </select>
 

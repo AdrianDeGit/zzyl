@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 import com.zzyl.common.core.domain.TreeSelect;
 import com.zzyl.common.core.domain.entity.SysMenu;
-import com.zzyl.system.domain.vo.RouterVo;
+import com.zzyl.system.domain.vo.RouterVO;
 
 /**
  * 菜单 业务层
@@ -68,7 +68,7 @@ public interface ISysMenuService
      * @param menus 菜单列表
      * @return 路由列表
      */
-    public List<RouterVo> buildMenus(List<SysMenu> menus);
+    public List<RouterVO> buildMenus(List<SysMenu> menus);
 
     /**
      * 构建前端所需要树结构

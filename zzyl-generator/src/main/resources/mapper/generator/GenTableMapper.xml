@@ -54,12 +54,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"     column="update_time"    />
     </resultMap>
 	
-	<sql id="selectGenTableVo">
+	<sql id="selectGenTableVO">
         select table_id, table_name, table_comment, sub_table_name, sub_table_fk_name, class_name, tpl_category, tpl_web_type, package_name, module_name, business_name, function_name, function_author, gen_type, gen_path, options, create_by, create_time, update_by, update_time, remark from gen_table
     </sql>
     
     <select id="selectGenTableList" parameterType="GenTable" resultMap="GenTableResult">
-		<include refid="selectGenTableVo"/>
+		<include refid="selectGenTableVO"/>
 		<where>
 			<if test="tableName != null and tableName != ''">
 				AND lower(table_name) like lower(concat('%', #{tableName}, '%'))

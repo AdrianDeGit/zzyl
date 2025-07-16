@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
-    <sql id="selectNursingLevelVo">
+    <sql id="selectNursingLevelVO">
         select id,
                name,
                lplan_id,
@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectNursingLevelList" parameterType="NursingLevel" resultMap="NursingLevelResult">
-        <include refid="selectNursingLevelVo"/>
+        <include refid="selectNursingLevelVO"/>
         <where>
             <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
             <if test="status != null ">and status = #{status}</if>
@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectNursingLevelById" parameterType="Long" resultMap="NursingLevelResult">
-        <include refid="selectNursingLevelVo"/>
+        <include refid="selectNursingLevelVO"/>
         where id = #{id}
     </select>
 
