@@ -10,6 +10,7 @@ import com.zzyl.common.utils.poi.ExcelUtil;
 import com.zzyl.nursing.domain.CheckIn;
 import com.zzyl.nursing.dto.CheckInApplyDTO;
 import com.zzyl.nursing.service.ICheckInService;
+import com.zzyl.nursing.vo.CheckInDetailVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -106,5 +107,12 @@ public class CheckInController extends BaseController {
     public AjaxResult apply(@RequestBody CheckInApplyDTO checkInApplyDTO) {
         checkInService.apply(checkInApplyDTO);
         return AjaxResult.success();
+    }
+
+    @GetMapping("/detail/{id}")
+    @ApiOperation("查询入住详情")
+    public AjaxResult detail(@PathVariable("id") Long id){
+        CheckInDetailVO checkInDetailVO = checkInService.detail(id);
+        return success(checkInDetailVO);
     }
 }

@@ -3,6 +3,7 @@ package com.zzyl.nursing.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import cn.hutool.core.util.IdcardUtil;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zzyl.common.exception.base.BaseException;
@@ -12,6 +13,10 @@ import com.zzyl.nursing.domain.*;
 import com.zzyl.nursing.dto.CheckInApplyDTO;
 import com.zzyl.nursing.dto.CheckInElderDTO;
 import com.zzyl.nursing.mapper.*;
+import com.zzyl.nursing.vo.CheckInConfigVO;
+import com.zzyl.nursing.vo.CheckInDetailVO;
+import com.zzyl.nursing.vo.CheckInElderVO;
+import com.zzyl.nursing.vo.ElderFamilyVO;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import com.zzyl.nursing.service.ICheckInService;
@@ -235,5 +240,42 @@ public class CheckInServiceImpl extends ServiceImpl<CheckInMapper, CheckIn> impl
             elderMapper.insert(elder);
         }
         return elder;
+    }
+
+    @Override
+    public CheckInDetailVO detail(Long id) {
+        // 准备结果对象
+        CheckInDetailVO checkInDetailVO = new CheckInDetailVO();
+        // 1.设置入住配置响应信息
+        CheckInConfigVO checkInConfigVO = new CheckInConfigVO();
+        CheckIn checkIn = checkInMapper.selectById(id);
+        BeanUtils.copyProperties(checkIn, checkInConfigVO);
+
+        CheckInConfig checkInConfig = checkInConfigMapper.selectOne(new LambdaQueryWrapper<CheckInConfig>().eq(CheckInConfig::getCheckInId, id));
+        BeanUtils.copyProperties(checkInConfig, checkInConfigVO);
+
+        checkInDetailVO.setCheckInConfigVO(checkInConfigVO);
+
+        // 2.设置老人响应信息
+        CheckInElderVO checkInElderVO = new CheckInElderVO();
+        // 获取老人ID
+        Long elderId = checkIn.getElderId();
+        Elder elder = elderMapper.selectById(elderId);
+        BeanUtils.copyProperties(elder, checkInElderVO);
+        // 从身份证号中获取老人的年龄
+        checkInElderVO.setAge(IdcardUtil.getAgeByIdCard(elder.getIdCardNo()));
+        checkInDetailVO.setCheckInElderVO(checkInElderVO);
+
+        // 3.设置家属响应信息
+        String remark = checkIn.getRemark();
+        List<ElderFamilyVO> elderFamilyVOs = JSON.parseArray(remark, ElderFamilyVO.class);
+        checkInDetailVO.setElderFamilyVOList(elderFamilyVOs);
+
+        // 4.设置签约办理响应信息
+        Contract contract = contractMapper.selectOne(new LambdaQueryWrapper<Contract>().eq(Contract::getElderId, elderId));
+        checkInDetailVO.setContract(contract);
+
+        // 5.返回结果
+        return checkInDetailVO;
     }
 }
