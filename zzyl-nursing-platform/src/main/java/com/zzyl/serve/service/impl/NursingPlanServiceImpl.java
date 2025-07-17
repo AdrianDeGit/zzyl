@@ -1,6 +1,7 @@
 package com.zzyl.serve.service.impl;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.zzyl.common.utils.DateUtils;
 import com.zzyl.common.utils.bean.BeanUtils;
@@ -10,6 +11,7 @@ import com.zzyl.serve.vo.NursingPlanVO;
 import com.zzyl.serve.vo.NursingProjectPlanVO;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import com.zzyl.serve.mapper.NursingPlanMapper;
 import com.zzyl.serve.domain.NursingPlan;
@@ -29,8 +31,15 @@ import javax.annotation.Resource;
 public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, NursingPlan> implements INursingPlanService {
     @Autowired
     private NursingPlanMapper nursingPlanMapper;
+
     @Resource
     private NursingProjectPlanMapper nursingProjectPlanMapper;
+
+    @Resource
+    private RedisTemplate<Object, Object> redisTemplate;
+
+    private static final String CACHE_KEY_PREFIX = "nursingPlan:all";
+
 
     /**
      * 查询护理计划
@@ -60,7 +69,13 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
      */
     @Override
     public List<NursingPlan> selectNursingPlanList(NursingPlan nursingPlan) {
-        return nursingPlanMapper.selectNursingPlanList(nursingPlan);
+        List<NursingPlan> nursingPlanList = (List<NursingPlan>) redisTemplate.opsForValue().get(CACHE_KEY_PREFIX);
+        if (nursingPlanList != null && !nursingPlanList.isEmpty()) {
+            return nursingPlanList;
+        }
+        List<NursingPlan> nursingPlanListDB = nursingPlanMapper.selectNursingPlanList(nursingPlan);
+        redisTemplate.opsForValue().set(CACHE_KEY_PREFIX, nursingPlanListDB, 60 * 60 * 24 + (int) (Math.random() * 100), TimeUnit.SECONDS);
+        return nursingPlanListDB;
     }
 
     /**
@@ -80,6 +95,8 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
 
         // 批量保存护理项目计划关系
         int count = nursingProjectPlanMapper.batchInsert(nursingPlanDTO.getProjectPlans(), nursingPlan.getId());
+
+        deleteCache();
         return count == 0 ? 0 : 1;
     }
 
@@ -106,6 +123,7 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
 
             // 不管项目列表是否为空，都要修改护理计划
             int updated = nursingPlanMapper.updateNursingPlan(nursingPlan);
+            deleteCache();
             return updated;
         } catch (BeansException e) {
             throw new RuntimeException(e);
@@ -121,7 +139,9 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
     @Override
     public int deleteNursingPlanByIds(Long[] ids) {
         nursingProjectPlanMapper.deleteNursingProjectPlanByIds(ids);
-        return nursingPlanMapper.deleteNursingPlanByIds(ids);
+        int result = nursingPlanMapper.deleteNursingPlanByIds(ids);
+        deleteCache();
+        return result;
     }
 
     /**
@@ -132,6 +152,15 @@ public class NursingPlanServiceImpl extends ServiceImpl<NursingPlanMapper, Nursi
      */
     @Override
     public int deleteNursingPlanById(Integer id) {
-        return removeById(id) ? 1 : 0;
+        boolean b = removeById(id);
+        deleteCache();
+        return b ? 1 : 0;
+    }
+
+    /**
+     * 删除Redis缓存数据
+     */
+    private void deleteCache() {
+        redisTemplate.delete(CACHE_KEY_PREFIX);
     }
 }
