@@ -5322,3 +5322,8 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-10-19 10:06:58
+ALTER TABLE family_member
+    MODIFY COLUMN phone VARCHAR(20)  -- 字段类型和长度要与原定义一致
+        CHARACTER SET utf8mb4
+        COLLATE utf8mb4_0900_ai_ci
+        NOT NULL COMMENT '手机号';
