@@ -148,3 +148,8 @@ aliyun:
   oss:
     endpoint: https://oss-cn-guangzhou.aliyuncs.com
     bucketName: bucket-for-adrian
+
+# 百度千帆大模型配置
+baidu:
+  apikey: bce-v3/ALTAK-MzY3w***************************************
+  qianfanModel: ernie-4.5-8k-preview

@@ -40,12 +40,12 @@ public class NursingLevelController extends BaseController {
     @Autowired
     private INursingLevelService nursingLevelService;
 
-/**
- * 查询护理等级列表
- */
-@PreAuthorize("@ss.hasPermi('serve:level:list')")
-@GetMapping("/list")
-@ApiOperation("查询护理等级列表")
+    /**
+     * 查询护理等级列表
+     */
+    @PreAuthorize("@ss.hasPermi('serve:level:list')")
+    @GetMapping("/list")
+    @ApiOperation("查询护理等级列表")
     public TableDataInfo<List<NursingLevel>> list(NursingLevel nursingLevel) {
         startPage();
         List<NursingLevel> list = nursingLevelService.selectNursingLevelList(nursingLevel);
@@ -61,7 +61,7 @@ public class NursingLevelController extends BaseController {
     @ApiOperation("导出护理等级列表")
     public void export(HttpServletResponse response, NursingLevel nursingLevel) {
         List<NursingLevel> list = nursingLevelService.selectNursingLevelList(nursingLevel);
-        ExcelUtil<NursingLevel> util = new ExcelUtil<NursingLevel>(NursingLevel. class);
+        ExcelUtil<NursingLevel> util = new ExcelUtil<NursingLevel>(NursingLevel.class);
         util.exportExcel(response, list, "护理等级数据");
     }
 
@@ -73,7 +73,7 @@ public class NursingLevelController extends BaseController {
     @ApiOperation("获取护理等级详细信息")
     public R<NursingLevel> getInfo(@ApiParam(value = "护理等级ID", required = true)
                                    @PathVariable("id") Long id) {
-                return R.ok(nursingLevelService.selectNursingLevelById(id));
+        return R.ok(nursingLevelService.selectNursingLevelById(id));
     }
 
     /**

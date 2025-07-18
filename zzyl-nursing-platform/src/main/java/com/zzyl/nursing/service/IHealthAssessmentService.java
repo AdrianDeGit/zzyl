@@ -3,6 +3,7 @@ package com.zzyl.nursing.service;
 import java.util.List;
 import com.zzyl.nursing.domain.HealthAssessment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zzyl.nursing.dto.HealthAssessmentDto;
 
 /**
  * 健康评估Service接口
@@ -34,7 +35,13 @@ public interface IHealthAssessmentService extends IService<HealthAssessment>
      * @param healthAssessment 健康评估
      * @return 结果
      */
-    public int insertHealthAssessment(HealthAssessment healthAssessment);
+    /**
+     * 新增健康评估
+     *
+     * @param dto 健康评估
+     * @return 结果
+     */
+    public Long insertHealthAssessment(HealthAssessmentDto dto);
 
     /**
      * 修改健康评估
@@ -59,4 +66,11 @@ public interface IHealthAssessmentService extends IService<HealthAssessment>
      * @return 结果
      */
     public int deleteHealthAssessmentById(Long id);
+
+    /**
+     * 新增健康评估
+     *
+     * @param healthAssessmentDto 健康评估
+     * @return 结果
+     */
 }
