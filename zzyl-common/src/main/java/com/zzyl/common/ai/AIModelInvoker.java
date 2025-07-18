@@ -35,7 +35,6 @@ public class AIModelInvoker {
             // 设置请求头
             connection.setRequestProperty("Content-Type", "application/json");
             // connection.setRequestProperty("Authorization", "Bearer " + baiduAIProperties.getApikey());
-            System.getenv("BAIDUYUN_API_KEY")
             connection.setRequestProperty("Authorization", "Bearer " + System.getenv("BAIDUYUN_API_KEY"));
 
             // 启用输出流，以便发送请求体

@@ -54,6 +54,13 @@ public class NursingPlanController extends BaseController {
         return getDataTable(list);
     }
 
+    @ApiOperation(value = "获取所有护理计划")
+    @GetMapping("/all")
+    public R<List<NursingPlan>> listAll() {
+        List<NursingPlan> list = nursingPlanService.selectNursingPlanList(new NursingPlan());
+        return R.ok(list);
+    }
+
     /**
      * 导出护理计划列表
      */
