@@ -4,6 +4,7 @@ package com.zzyl.framework.interceptor;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.zzyl.common.core.domain.model.LoginUser;
 import com.zzyl.common.utils.SecurityUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
@@ -38,10 +39,20 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
      * @return 登录人ID
      */
     public Long loadUserId() {
-        LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (loginUser != null) {
-            return loginUser.getUserId();
+        // LoginUser loginUser = SecurityUtils.getLoginUser();
+        // if (loginUser != null) {
+        //     return loginUser.getUserId();
+        // }
+        // return 1L;
+        //获取当前登录人的id
+        try {
+            LoginUser loginUser = SecurityUtils.getLoginUser();
+            if (ObjectUtils.isNotEmpty(loginUser)) {
+                return loginUser.getUserId();
+            }
+            return 1L;
+        } catch (Exception e) {
+            return 1L;
         }
-        return 1L;
     }
 }
