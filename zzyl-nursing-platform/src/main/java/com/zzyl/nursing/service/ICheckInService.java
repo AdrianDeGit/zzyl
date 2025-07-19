@@ -3,8 +3,8 @@ package com.zzyl.nursing.service;
 import java.util.List;
 import com.zzyl.nursing.domain.CheckIn;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zzyl.nursing.dto.CheckInApplyDTO;
-import com.zzyl.nursing.vo.CheckInDetailVO;
+import com.zzyl.nursing.domain.dto.CheckInApplyDTO;
+import com.zzyl.nursing.domain.vo.CheckInDetailVO;
 
 /**
  * 入住Service接口

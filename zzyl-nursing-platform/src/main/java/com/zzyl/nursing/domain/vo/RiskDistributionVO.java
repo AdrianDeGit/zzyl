@@ -1,4 +1,4 @@
-package com.zzyl.nursing.vo.health;
+package com.zzyl.nursing.domain.vo;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import lombok.Data;
  * @author itheima
  */
 @Data
-public class RiskDistributionVo {
+public class RiskDistributionVO {
     /**
      * 健康
      */

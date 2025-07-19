@@ -2,7 +2,7 @@ package com.zzyl.serve.service.impl;
 
 import java.util.List;
 
-import com.zzyl.serve.vo.NursingProjectVO;
+import com.zzyl.serve.domain.vo.NursingProjectVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.zzyl.serve.mapper.NursingProjectMapper;

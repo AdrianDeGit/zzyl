@@ -49,7 +49,7 @@
         where id = #{id}
     </select>
 
-    <select id="selectByPlanId" resultType="com.zzyl.serve.vo.NursingProjectPlanVO">
+    <select id="selectByPlanId" resultType="com.zzyl.serve.domain.vo.NursingProjectPlanVO">
         select id, plan_id, project_id, execute_time, execute_cycle, execute_frequency
         from nursing_project_plan
         where plan_id = #{id}

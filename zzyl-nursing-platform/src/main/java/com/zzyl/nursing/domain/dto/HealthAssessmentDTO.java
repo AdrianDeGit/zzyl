@@ -1,4 +1,4 @@
-package com.zzyl.nursing.dto;
+package com.zzyl.nursing.domain.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @ApiModel("健康评估")
-public class HealthAssessmentDto {
+public class HealthAssessmentDTO {
 
     /**
      * 老人姓名

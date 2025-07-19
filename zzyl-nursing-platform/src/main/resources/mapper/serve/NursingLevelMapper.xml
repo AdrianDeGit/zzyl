@@ -47,6 +47,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
+    <select id="selectNursingLevelVOList" resultType="com.zzyl.serve.domain.vo.NursingLevelVO">
+        SELECT
+            nl.name,
+            np.plan_name AS planName,
+            nl.fee,
+            nl.status,
+            nl.update_time
+        FROM
+            nursing_level nl
+        LEFT JOIN
+            nursing_plan np ON nl.lplan_id = np.id
+        <where>
+            <if test="nursingLevel.name != null and nursingLevel.name != ''">
+                AND nl.name LIKE CONCAT('%', #{nursingLevel.name}, '%')
+            </if>
+            <if test="nursingLevel.status != null">
+                AND nl.status = #{nursingLevel.status}
+            </if>
+        </where>
+        ORDER BY nl.name
+    </select>
+
     <insert id="insertNursingLevel" parameterType="NursingLevel" useGeneratedKeys="true" keyProperty="id">
         insert into nursing_level
         <trim prefix="(" suffix=")" suffixOverrides=",">

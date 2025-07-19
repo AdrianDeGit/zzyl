@@ -1,4 +1,4 @@
-package com.zzyl.nursing.vo.health;
+package com.zzyl.nursing.domain.vo;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * @author itheima
  */
 @Data
-public class HealthReportVo {
+public class HealthReportVO {
 
     /**
      * 体检日期
@@ -18,15 +18,15 @@ public class HealthReportVo {
     /**
      * 健康评估
      */
-    private HealthAssessmentVo healthAssessment;
+    private HealthAssessmentVO healthAssessment;
     /**
      * 风险分布
      */
-    private RiskDistributionVo riskDistribution;
+    private RiskDistributionVO riskDistribution;
     /**
      * 异常数据列表
      */
-    private List<AbnormalDataVo> abnormalData;
+    private List<AbnormalDataVO> abnormalData;
 
     /**
      * 健康系统分值

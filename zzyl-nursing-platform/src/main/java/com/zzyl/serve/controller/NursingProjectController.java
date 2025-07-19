@@ -1,6 +1,6 @@
 package com.zzyl.serve.controller;
 
-import com.zzyl.serve.vo.NursingProjectVO;
+import com.zzyl.serve.domain.vo.NursingProjectVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

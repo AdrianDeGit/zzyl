@@ -1,4 +1,4 @@
-package com.zzyl.nursing.vo;
+package com.zzyl.nursing.domain.vo;
 
 import com.zzyl.common.core.domain.entity.SysUser;
 import io.swagger.annotations.ApiModel;

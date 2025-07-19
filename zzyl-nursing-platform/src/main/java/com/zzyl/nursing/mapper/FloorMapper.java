@@ -2,7 +2,7 @@ package com.zzyl.nursing.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zzyl.nursing.domain.Floor;
-import com.zzyl.nursing.vo.TreeVO;
+import com.zzyl.nursing.domain.vo.TreeVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

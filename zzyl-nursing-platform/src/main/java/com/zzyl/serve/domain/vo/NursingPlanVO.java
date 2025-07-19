@@ -1,6 +1,7 @@
 package com.zzyl.serve.vo;
 
 
+import com.zzyl.serve.domain.vo.NursingProjectPlanVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

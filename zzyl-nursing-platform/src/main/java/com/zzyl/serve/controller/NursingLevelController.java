@@ -26,6 +26,7 @@ import com.zzyl.serve.domain.NursingLevel;
 import com.zzyl.serve.service.INursingLevelService;
 import com.zzyl.common.utils.poi.ExcelUtil;
 import com.zzyl.common.core.page.TableDataInfo;
+import com.zzyl.serve.domain.vo.NursingLevelVO;
 
 /**
  * 护理等级Controller
@@ -46,10 +47,9 @@ public class NursingLevelController extends BaseController {
     @PreAuthorize("@ss.hasPermi('serve:level:list')")
     @GetMapping("/list")
     @ApiOperation("查询护理等级列表")
-    public TableDataInfo<List<NursingLevel>> list(NursingLevel nursingLevel) {
-        startPage();
-        List<NursingLevel> list = nursingLevelService.selectNursingLevelList(nursingLevel);
-        return getDataTable(list);
+    public R<List<NursingLevelVO>> list(NursingLevel nursingLevel) {
+        List<NursingLevelVO> list = nursingLevelService.selectNursingLevelVOList(nursingLevel);
+        return R.ok(list);
     }
 
     /**

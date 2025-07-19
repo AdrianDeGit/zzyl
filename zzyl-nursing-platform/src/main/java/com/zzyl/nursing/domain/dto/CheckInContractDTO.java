@@ -1,5 +1,4 @@
-
-package com.zzyl.nursing.dto;
+package com.zzyl.nursing.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;

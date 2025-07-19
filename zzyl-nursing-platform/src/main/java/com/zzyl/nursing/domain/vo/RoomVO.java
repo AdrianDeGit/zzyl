@@ -1,5 +1,6 @@
-package com.zzyl.nursing.vo;
+package com.zzyl.nursing.domain.vo;
 
+import com.zzyl.nursing.domain.vo.BedVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

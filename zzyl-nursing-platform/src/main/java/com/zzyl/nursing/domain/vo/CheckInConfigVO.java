@@ -1,4 +1,4 @@
-package com.zzyl.nursing.vo;
+package com.zzyl.nursing.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zzyl.common.annotation.Excel;

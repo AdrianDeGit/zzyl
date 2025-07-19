@@ -36,6 +36,7 @@ public class NursingLevel extends BaseEntity {
     @Excel(name = "等级名称")
     @ApiModelProperty(value = "等级名称")
     private String name;
+
     /**
      * 护理计划ID
      */

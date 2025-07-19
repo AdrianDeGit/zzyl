@@ -2,9 +2,9 @@ package com.zzyl.nursing.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zzyl.nursing.domain.Room;
+import com.zzyl.nursing.domain.vo.RoomVO;
 import com.zzyl.nursing.mapper.RoomMapper;
 import com.zzyl.nursing.service.IRoomService;
-import com.zzyl.nursing.vo.RoomVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

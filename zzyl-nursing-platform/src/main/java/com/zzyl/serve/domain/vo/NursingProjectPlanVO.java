@@ -1,5 +1,4 @@
-package com.zzyl.serve.vo;
-
+package com.zzyl.serve.domain.vo;
 
 import com.zzyl.common.annotation.Excel;
 import lombok.Data;

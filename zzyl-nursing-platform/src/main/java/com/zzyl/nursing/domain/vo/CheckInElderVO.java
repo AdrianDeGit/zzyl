@@ -1,4 +1,4 @@
-package com.zzyl.nursing.vo;
+package com.zzyl.nursing.domain.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

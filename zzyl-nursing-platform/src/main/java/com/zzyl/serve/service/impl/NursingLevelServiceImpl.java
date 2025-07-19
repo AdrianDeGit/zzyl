@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.zzyl.serve.mapper.NursingLevelMapper;
 import com.zzyl.serve.domain.NursingLevel;
 import com.zzyl.serve.service.INursingLevelService;
+import com.zzyl.serve.domain.vo.NursingLevelVO;
 
 import com.zzyl.serve.mapper.NursingLevelMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -141,6 +142,17 @@ public class NursingLevelServiceImpl extends ServiceImpl<NursingLevelMapper, Nur
         redisTemplate.opsForValue().set(CACHE_KEY_PREFIX, list, 60 * 60 * 24 + (int) (Math.random() * 100), TimeUnit.SECONDS);
 
         return list;
+    }
+
+    /**
+     * 查询护理等级VO列表
+     *
+     * @param nursingLevel 护理等级
+     * @return 护理等级VO列表
+     */
+    @Override
+    public List<NursingLevelVO> selectNursingLevelVOList(NursingLevel nursingLevel) {
+        return nursingLevelMapper.selectNursingLevelVOList(nursingLevel);
     }
 
     /**

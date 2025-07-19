@@ -50,13 +50,13 @@
     </select>
 
 
-    <resultMap id="roomVOResultMap" type="com.zzyl.nursing.vo.RoomVO">
+    <resultMap id="roomVOResultMap" type="com.zzyl.nursing.domain.vo.RoomVO">
         <id property="id" column="id"/>
         <result property="code" column="code"/>
         <result property="floorId" column="floor_id"/>
         <result property="floorName" column="fname"/>
         <result column="price" property="price"/>
-        <collection property="bedVOList" ofType="com.zzyl.nursing.vo.BedVO">
+        <collection property="bedVOList" ofType="com.zzyl.nursing.domain.vo.BedVO">
             <id column="bid" property="id"/>
             <result column="bed_number" property="bedNumber"/>
             <result column="bed_status" property="bedStatus"/>
@@ -92,13 +92,13 @@
     </select>
 
 
-    <resultMap id="roomVOWithNurResultMap" type="com.zzyl.nursing.vo.RoomVO">
+    <resultMap id="roomVOWithNurResultMap" type="com.zzyl.nursing.domain.vo.RoomVO">
         <id property="id" column="id"/>
         <result property="code" column="code"/>
         <result property="floorId" column="floor_id"/>
         <result property="floorName" column="fname"/>
         <result column="price" property="price"/>
-        <collection property="bedVOList" ofType="com.zzyl.nursing.vo.BedVO">
+        <collection property="bedVOList" ofType="com.zzyl.nursing.domain.vo.BedVO">
             <id column="bid" property="id"/>
             <result column="bed_number" property="bedNumber"/>
             <result column="bed_status" property="bedStatus"/>
@@ -130,7 +130,7 @@
         order by r.sort, r.create_time desc
     </select>
 
-    <select id="getRoomById" resultType="com.zzyl.nursing.vo.RoomVO">
+    <select id="getRoomById" resultType="com.zzyl.nursing.domain.vo.RoomVO">
         select f.name floorName, f.id floorId, r.id roomId, r.code, rt.price
         from floor f
                  left join room r on f.id = r.floor_id

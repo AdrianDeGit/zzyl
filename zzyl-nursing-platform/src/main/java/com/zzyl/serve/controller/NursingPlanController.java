@@ -1,6 +1,6 @@
 package com.zzyl.serve.controller;
 
-import com.zzyl.serve.dto.NursingPlanDTO;
+import com.zzyl.serve.domain.dto.NursingPlanDTO;
 import com.zzyl.serve.vo.NursingPlanVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

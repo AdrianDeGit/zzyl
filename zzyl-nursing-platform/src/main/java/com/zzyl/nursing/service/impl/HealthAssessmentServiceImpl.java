@@ -9,10 +9,10 @@ import com.zzyl.common.exception.base.BaseException;
 import com.zzyl.common.util.IDCardUtils;
 import com.zzyl.common.utils.StringUtils;
 import com.zzyl.nursing.domain.HealthAssessment;
-import com.zzyl.nursing.dto.HealthAssessmentDto;
+import com.zzyl.nursing.domain.dto.HealthAssessmentDTO;
 import com.zzyl.nursing.mapper.HealthAssessmentMapper;
 import com.zzyl.nursing.service.IHealthAssessmentService;
-import com.zzyl.nursing.vo.health.HealthReportVo;
+import com.zzyl.nursing.domain.vo.HealthReportVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -117,7 +117,7 @@ public class HealthAssessmentServiceImpl extends ServiceImpl<HealthAssessmentMap
      * @return 新增记录的主键ID
      */
     @Override
-    public Long insertHealthAssessment(HealthAssessmentDto dto) {
+    public Long insertHealthAssessment(HealthAssessmentDTO dto) {
         // 1.组装AI模型的提示词（Prompt）
         String prompt = getPrompt(dto);
 
@@ -129,8 +129,8 @@ public class HealthAssessmentServiceImpl extends ServiceImpl<HealthAssessmentMap
             throw new BaseException("AI分析失败");
         }
 
-        // 3.解析AI返回的JSON数据为HealthReportVo对象
-        HealthReportVo healthReportVo = null;
+        // 3.解析AI返回的JSON数据为HealthReportVO对象
+        HealthReportVO healthReportVO = null;
         try {
             // 创建Jackson的ObjectMapper实例，用于JSON转换
             ObjectMapper objectMapper = new ObjectMapper();
@@ -153,8 +153,8 @@ public class HealthAssessmentServiceImpl extends ServiceImpl<HealthAssessmentMap
 
                 // 移除Markdown代码块标记（```json和```），清理文本
                 content = content.replace("```json", "").replace("```", "").trim();
-                // 使用Hutool的JSONUtil将清理后的JSON文本转换为HealthReportVo对象
-                healthReportVo = JSONUtil.toBean(content, HealthReportVo.class);
+                // 使用Hutool的JSONUtil将清理后的JSON文本转换为HealthReportVO对象
+                healthReportVO = JSONUtil.toBean(content, HealthReportVO.class);
             }
         } catch (IOException e) {
             // 打印异常堆栈信息
@@ -162,7 +162,7 @@ public class HealthAssessmentServiceImpl extends ServiceImpl<HealthAssessmentMap
         }
 
         // 4.保存数据（AI解析的数据和前端传递的数据）
-        Long id = insertHealthReport(healthReportVo, dto);
+        Long id = insertHealthReport(healthReportVO, dto);
 
         // 5.返回新增数据的主键ID
         return id;
@@ -171,11 +171,11 @@ public class HealthAssessmentServiceImpl extends ServiceImpl<HealthAssessmentMap
     /**
      * 抽取的辅助方法：保存健康评估数据到数据库
      *
-     * @param healthReportVo AI解析后的健康报告数据
+     * @param healthReportVO AI解析后的健康报告数据
      * @param dto            前端传递的健康评估参数
      * @return 新增记录的主键ID
      */
-    private Long insertHealthReport(HealthReportVo healthReportVo, HealthAssessmentDto dto) {
+    private Long insertHealthReport(HealthReportVO healthReportVO, HealthAssessmentDTO dto) {
         // 1.创建健康评估实体对象
         HealthAssessment healthAssessment = new HealthAssessment();
         // 2.封装数据（从DTO和AI解析结果中提取字段赋值）
@@ -187,24 +187,24 @@ public class HealthAssessmentServiceImpl extends ServiceImpl<HealthAssessmentMap
         healthAssessment.setGender(IDCardUtils.getGenderFromIdCard(dto.getIdCard()));
 
         // 健康评分、危险等级、是否建议入住（从AI结果中提取）
-        double healthScore = healthReportVo.getHealthAssessment().getHealthIndex();
+        double healthScore = healthReportVO.getHealthAssessment().getHealthIndex();
         healthAssessment.setHealthScore(String.valueOf(healthScore));  // 健康评分转换为字符串存储
-        healthAssessment.setRiskLevel(healthReportVo.getHealthAssessment().getRiskLevel());  // 危险等级
+        healthAssessment.setRiskLevel(healthReportVO.getHealthAssessment().getRiskLevel());  // 危险等级
         // 健康评分>=60分建议入住（0表示建议，1表示不建议）
         healthAssessment.setSuggestionForAdmission(healthScore >= 60 ? 0 : 1);
 
         // 推荐护理等级、入住状态、总检日期、体检机构、体检报告URL、评估时间等字段赋值
         healthAssessment.setNursingLevelName(getNursingLevelName(healthScore));  // 推荐护理等级
         healthAssessment.setAdmissionStatus(1);  // 入住状态（1表示未入住，具体含义需看业务定义）
-        healthAssessment.setTotalCheckDate(healthReportVo.getTotalCheckDate());  // 总检日期
+        healthAssessment.setTotalCheckDate(healthReportVO.getTotalCheckDate());  // 总检日期
         healthAssessment.setPhysicalExamInstitution(dto.getPhysicalExamInstitution());  // 体检机构
         healthAssessment.setPhysicalReportUrl(dto.getPhysicalReportUrl());  // 体检报告URL
         healthAssessment.setAssessmentTime(LocalDateTime.now());  // 评估时间（当前时间）
-        healthAssessment.setReportSummary(healthReportVo.getSummarize());  // 报告总结
+        healthAssessment.setReportSummary(healthReportVO.getSummarize());  // 报告总结
         // 将对象转换为JSON字符串存储（疾病风险、异常分析、系统分值）
-        healthAssessment.setDiseaseRisk(JSONUtil.toJsonStr(healthReportVo.getRiskDistribution()));
-        healthAssessment.setAbnormalAnalysis(JSONUtil.toJsonStr(healthReportVo.getAbnormalData()));
-        healthAssessment.setSystemScore(JSONUtil.toJsonStr(healthReportVo.getSystemScore()));
+        healthAssessment.setDiseaseRisk(JSONUtil.toJsonStr(healthReportVO.getRiskDistribution()));
+        healthAssessment.setAbnormalAnalysis(JSONUtil.toJsonStr(healthReportVO.getAbnormalData()));
+        healthAssessment.setSystemScore(JSONUtil.toJsonStr(healthReportVO.getSystemScore()));
 
         // 保存实体对象到数据库，MyBatis-Plus的save方法会自动生成主键并赋值
         save(healthAssessment);
@@ -243,7 +243,7 @@ public class HealthAssessmentServiceImpl extends ServiceImpl<HealthAssessmentMap
      * @param dto 健康评估DTO（包含前端传递的参数）
      * @return 组装好的提示词字符串
      */
-    private String getPrompt(HealthAssessmentDto dto) {
+    private String getPrompt(HealthAssessmentDTO dto) {
         // 1.从Redis中获取体检报告内容（键为"healthReport"，字段为身份证号）
         String content = (String) redisTemplate.opsForHash().get("healthReport", dto.getIdCard());
         // 如果Redis中没有对应的体检内容，抛出异常

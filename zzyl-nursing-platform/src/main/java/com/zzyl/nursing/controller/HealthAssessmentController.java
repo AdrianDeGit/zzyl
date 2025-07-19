@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zzyl.common.core.domain.R;
 import com.zzyl.common.utils.PDFUtil;
-import com.zzyl.nursing.dto.HealthAssessmentDto;
+import com.zzyl.nursing.domain.dto.HealthAssessmentDTO;
 import com.zzyl.oss.AliyunOSSOperator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -95,7 +95,7 @@ public class HealthAssessmentController extends BaseController {
     @Log(title = "健康评估", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@ApiParam(value = "健康评估实体")
-                          @RequestBody HealthAssessmentDto dto) {
+                          @RequestBody HealthAssessmentDTO dto) {
         Long id = healthAssessmentService.insertHealthAssessment(dto);
         return success(id);
     }

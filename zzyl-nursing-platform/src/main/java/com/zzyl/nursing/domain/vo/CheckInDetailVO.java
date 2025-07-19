@@ -1,7 +1,8 @@
-package com.zzyl.nursing.vo;
+package com.zzyl.nursing.domain.vo;
 
 import com.zzyl.nursing.domain.CheckInConfig;
 import com.zzyl.nursing.domain.Contract;
+import com.zzyl.nursing.domain.vo.CheckInConfigVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

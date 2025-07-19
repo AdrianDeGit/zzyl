@@ -2,7 +2,7 @@ package com.zzyl.nursing.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zzyl.nursing.domain.Floor;
-import com.zzyl.nursing.vo.TreeVO;
+import com.zzyl.nursing.domain.vo.TreeVO;
 
 import java.util.List;
 

@@ -32,13 +32,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
-    <resultMap id="TreeVOResultMap" type="com.zzyl.nursing.vo.TreeVO">
+    <resultMap id="TreeVOResultMap" type="com.zzyl.nursing.domain.vo.TreeVO">
         <id column="fid" property="value"/>
         <result column="name" property="label"/>
-        <collection property="children" ofType="com.zzyl.nursing.vo.TreeVO">
+        <collection property="children" ofType="com.zzyl.nursing.domain.vo.TreeVO">
             <id column="rid" property="value"/>
             <result column="code" property="label"/>
-            <collection property="children" ofType="com.zzyl.nursing.vo.TreeVO">
+            <collection property="children" ofType="com.zzyl.nursing.domain.vo.TreeVO">
                 <id column="bid" property="value"/>
                 <result column="bed_number" property="label"/>
             </collection>
