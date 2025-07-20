@@ -153,3 +153,7 @@ aliyun:
 baidu:
   apikey: bce-v3/ALTAK-MzY3w***************************************
   qianfanModel: ernie-4.5-8k-preview
+
+wechat:
+  appId: wx57327926b9aa8672
+  appSecret: 4e22277e0fc763c2fd9ab764f9f10330
