@@ -1,4 +1,4 @@
-package com.zzyl.common.util;
+package com.zzyl.common.utils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -71,8 +71,8 @@ public final class IDCardUtils {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(getAgeByIdCard("330103199001011234"));
-        System.out.println(getBirthDateByIdCard("330103199001011234"));
-    }
+    // public static void main(String[] args) {
+    //     System.out.println(getAgeByIdCard("330103199001011234"));
+    //     System.out.println(getBirthDateByIdCard("330103199001011234"));
+    // }
 }

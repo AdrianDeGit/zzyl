@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zzyl.common.ai.AIModelInvoker;
 import com.zzyl.common.exception.base.BaseException;
-import com.zzyl.common.util.IDCardUtils;
+import com.zzyl.common.utils.IDCardUtils;
 import com.zzyl.common.utils.StringUtils;
 import com.zzyl.nursing.domain.HealthAssessment;
 import com.zzyl.nursing.domain.dto.HealthAssessmentDTO;
