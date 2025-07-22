@@ -130,7 +130,7 @@ pagehelper:
 swagger:
   # 是否开启swagger
   enabled: true
-    # 请求前缀
+  # 请求前缀
   pathMapping: /dev-api
 #  pathMapping: /
 
@@ -157,3 +157,16 @@ baidu:
 wechat:
   appId: wx57327926b9aa8672
   appSecret: 4e22277e0fc763c2fd9ab764f9f10330
+
+huaweicloud:
+  ak: HPUAOGXLFIZF7HFNOTOB
+  sk: Ay4SWYvwdIS4uGhK4tf4NH0Lsiu01WadiAa3UdWL
+  #如果是上海一，请填写"cn-east-3"；如果是北京四，请填写"cn-north-4";
+  regionId: cn-east-3
+  endpoint: 7200e5f59a.st1.iotda-app.cn-north-4.myhuaweicloud.com
+  projectId: 6111af295800415d882b906237789f22
+  #amqp相关配置 第二天课程接收设备数据使用
+  host: 38e7abedbf.st1.iotda-app.cn-east-3.myhuaweicloud.com
+  accessKey: S25ZeTC5
+  accessCode: a4fKpE5zbk0nbGNJU0d1bKkJNRZxQzlp
+  queueName: DefaultQueue   #默认无需改动
