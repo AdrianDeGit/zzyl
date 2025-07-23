@@ -94,4 +94,17 @@ public class DeviceController extends BaseController {
     public AjaxResult getInfo(@PathVariable("iotId") String iotId) {
         return success(deviceService.queryDeviceDetail(iotId));
     }
+
+    /**
+     * 查询设备上报数据
+     */
+    @GetMapping("/queryServiceProperties/{iotId}")
+    @ApiOperation("查询设备上报数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "iotId", value = "物联网设备id", required = true, dataTypeClass = String.class)
+    })
+    public AjaxResult queryServiceProperties(@PathVariable("iotId") String iotId) {
+        AjaxResult ajaxResult = deviceService.queryServiceProperties(iotId);
+        return ajaxResult;
+    }
 }

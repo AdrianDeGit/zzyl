@@ -1,15 +1,18 @@
 package com.zzyl.nursing.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.huaweicloud.sdk.iotda.v5.IoTDAClient;
 import com.huaweicloud.sdk.iotda.v5.model.*;
+import com.zzyl.common.core.domain.AjaxResult;
 import com.zzyl.common.exception.base.BaseException;
 import com.zzyl.common.utils.StringUtils;
 import com.zzyl.nursing.domain.Device;
@@ -26,9 +29,7 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
@@ -289,9 +290,9 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
 
         deviceDetailVO.setDeviceStatus(response.getStatus());
         String activeTimeStr = response.getActiveTime();
-        if(StringUtils.isNotEmpty(activeTimeStr)){
+        if (StringUtils.isNotEmpty(activeTimeStr)) {
             LocalDateTime activeTime = LocalDateTimeUtil.parse(activeTimeStr, DatePattern.UTC_MS_PATTERN);
-            //日期时区转换
+            // 日期时区转换
             activeTime = activeTime.atZone(ZoneId.from(ZoneOffset.UTC))
                     .withZoneSameInstant(ZoneId.of("Asia/Shanghai"))
                     .toLocalDateTime();
@@ -299,5 +300,63 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
         }
 
         return deviceDetailVO;
+    }
+
+    /**
+     * 查询设备上报数据
+     *
+     * @param iotId
+     */
+    @Override
+    public AjaxResult queryServiceProperties(String iotId) {
+        // 创建查询设备影子数据的请求
+        ShowDeviceShadowRequest request = new ShowDeviceShadowRequest();
+        // 设置设备ID
+        request.setDeviceId(iotId);
+        // 调用物联网接口查询设备影子数据
+        ShowDeviceShadowResponse response = ioTDAClient.showDeviceShadow(request);
+        // 判断接口调用是否成功
+        if (response.getHttpStatusCode() != 200) {
+            // 抛出异常
+            throw new BaseException("物联网接口 - 查询设备上报数据，调用失败");
+        }
+        // 获取设备影子数据
+        List<DeviceShadowData> shadow = response.getShadow();
+        // 判断设备影子数据是否为空
+        if (CollectionUtil.isEmpty(shadow)) {
+            // 返回空列表
+            List<Object> emptyList = Collections.emptyList();
+            return AjaxResult.success(emptyList);
+        }
+        // 返回数据
+        // 将设备影子数据中的reported属性转换为JSON对象
+        JSONObject jsonObject = JSONUtil.parseObj(shadow.get(0).getReported().getProperties());
+
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        // 处理上报时间日期
+        // 将设备影子数据中的eventTime属性转换为LocalDateTime对象
+        LocalDateTime activeTime = LocalDateTimeUtil.parse(shadow.get(0).getReported().getEventTime(), "yyyyMMdd'T'HHmmss'Z'");
+        // 日期时区转换
+        // 将UTC时区转换为上海时区
+        LocalDateTime eventTime = activeTime.atZone(ZoneId.from(ZoneOffset.UTC))
+                .withZoneSameInstant(ZoneId.of("Asia/Shanghai"))
+                .toLocalDateTime();
+
+        // 遍历JSON对象中的属性
+        jsonObject.forEach((propertiesKey, propertiesValue) -> {
+            Map<String, Object> map = new HashMap<>();
+            // 将属性名作为functionId
+            map.put("functionId", propertiesKey);
+            // 将属性值作为value
+            map.put("value", propertiesValue);
+            // 将转换后的日期作为eventTime
+            map.put("eventTime", eventTime);
+            // 将map添加到list中
+            list.add(map);
+        });
+
+        // 返回list
+        return AjaxResult.success(list);
     }
 }
