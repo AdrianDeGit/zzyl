@@ -4,16 +4,14 @@ import com.zzyl.common.core.controller.BaseController;
 import com.zzyl.common.core.domain.AjaxResult;
 import com.zzyl.common.core.page.TableDataInfo;
 import com.zzyl.nursing.domain.Device;
+import com.zzyl.nursing.domain.dto.DeviceDTO;
 import com.zzyl.nursing.service.IDeviceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -26,11 +24,14 @@ import java.util.List;
 @RequestMapping("/nursing/device")
 @Api(tags = "设备相关接口")
 public class DeviceController extends BaseController {
-    @Autowired
+    @Resource
     private IDeviceService deviceService;
 
     /**
      * 查询设备列表
+     *
+     * @param device
+     * @return
      */
     @PreAuthorize("@ss.hasPermi('nursing:device:list')")
     @GetMapping("/list")
@@ -41,6 +42,11 @@ public class DeviceController extends BaseController {
         return getDataTable(list);
     }
 
+    /**
+     * 从物联网平台同步产品列表
+     *
+     * @return
+     */
     @PostMapping("/syncProductList")
     @ApiOperation(value = "从物联网平台同步产品列表")
     public AjaxResult syncProductList() {
@@ -48,9 +54,27 @@ public class DeviceController extends BaseController {
         return success();
     }
 
+    /**
+     * 查询所有产品列表
+     *
+     * @return
+     */
     @GetMapping("/allProduct")
     @ApiOperation(value = "查询所有产品列表")
     public AjaxResult allProduct() {
         return success(deviceService.allProduct());
+    }
+
+    /**
+     * 注册设备
+     *
+     * @param deviceDTO
+     * @return
+     */
+    @PostMapping("/register")
+    @ApiOperation(value = "注册设备")
+    public AjaxResult registerDevice(@RequestBody DeviceDTO deviceDTO) {
+        deviceService.registerDevice(deviceDTO);
+        return success();
     }
 }

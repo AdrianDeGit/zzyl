@@ -12,7 +12,7 @@ import com.zzyl.common.core.domain.BaseEntity;
 /**
  * 设备对象 device
  *
- * @author Adrian
+ * @author ruoyi
  * @date 2025-07-23
  */
 @Data
@@ -35,6 +35,13 @@ public class Device extends BaseEntity {
     @Excel(name = "物联网设备ID")
     @ApiModelProperty(value = "物联网设备ID")
     private String iotId;
+
+    /**
+     * 设备秘钥
+     */
+    @Excel(name = "设备秘钥")
+    @ApiModelProperty(value = "设备秘钥")
+    private String secret;
 
     /**
      * 绑定位置
@@ -99,4 +106,10 @@ public class Device extends BaseEntity {
     @ApiModelProperty(value = "产品是否包含门禁，0：否，1：是")
     private Integer haveEntranceGuard;
 
-                                                                                                                                                                                                                    }
+    /**
+     * 节点id
+     */
+    @Excel(name = "节点id")
+    @ApiModelProperty(value = "节点id")
+    private String nodeId;
+}

@@ -2,8 +2,10 @@ package com.zzyl.nursing.service;
 
 import java.util.List;
 
+import com.zzyl.common.core.domain.AjaxResult;
 import com.zzyl.nursing.domain.Device;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zzyl.nursing.domain.dto.DeviceDTO;
 import com.zzyl.nursing.domain.vo.ProductVO;
 
 /**
@@ -72,4 +74,9 @@ public interface IDeviceService extends IService<Device> {
      * @return 产品列表
      */
     List<ProductVO> allProduct();
+
+    /**
+     * 注册设备
+     */
+    void registerDevice(DeviceDTO deviceDTO);
 }

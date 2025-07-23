@@ -5329,3 +5329,144 @@ ALTER TABLE family_member
         NOT NULL COMMENT '手机号';
 
 
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : MySQL
+ Source Server Type    : MySQL
+ Source Server Version : 80033
+ Source Host           : localhost:3306
+ Source Schema         : sb
+
+ Target Server Type    : MySQL
+ Target Server Version : 80033
+ File Encoding         : 65001
+
+ Date: 23/07/2025 17:15:07
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for device
+-- ----------------------------
+DROP TABLE IF EXISTS `device`;
+CREATE TABLE `device`  (
+                           `id` bigint NOT NULL AUTO_INCREMENT,
+                           `iot_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '物联网设备ID',
+                           `secret` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '设备秘钥',
+                           `binding_location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '绑定位置',
+                           `location_type` int NULL DEFAULT NULL COMMENT '位置类型 0：随身设备 1：固定设备',
+                           `physical_location_type` int NULL DEFAULT NULL COMMENT '物理位置类型 0楼层 1房间 2床位',
+                           `device_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '设备名称',
+                           `product_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '产品key',
+                           `product_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '产品名称',
+                           `device_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '位置备注',
+                           `have_entrance_guard` int NOT NULL DEFAULT 0 COMMENT '产品是否包含门禁，0：否，1：是',
+                           `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+                           `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                           `create_by` bigint NULL DEFAULT NULL COMMENT '创建人id',
+                           `node_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '节点id',
+                           `update_by` bigint NULL DEFAULT NULL COMMENT '更新人id',
+                           `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
+                           PRIMARY KEY (`id`) USING BTREE,
+                           UNIQUE INDEX `binding_location_location_type_physical_location_type_product_id`(`binding_location` ASC, `location_type` ASC, `physical_location_type` ASC, `product_key` ASC) USING BTREE,
+                           INDEX `device_id`(`iot_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : MySQL
+ Source Server Type    : MySQL
+ Source Server Version : 80033
+ Source Host           : localhost:3306
+ Source Schema         : sb
+
+ Target Server Type    : MySQL
+ Target Server Version : 80033
+ File Encoding         : 65001
+
+ Date: 23/07/2025 17:15:16
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for device_data
+-- ----------------------------
+DROP TABLE IF EXISTS `device_data`;
+CREATE TABLE `device_data`  (
+                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT '告警规则ID，自增主键',
+                                `device_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '设备名称',
+                                `iot_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '设备ID',
+                                `product_key` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '所属产品的key',
+                                `product_name` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '产品名称',
+                                `function_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '功能名称',
+                                `access_location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '接入位置',
+                                `location_type` int NULL DEFAULT NULL COMMENT '位置类型 0：随身设备 1：固定设备',
+                                `physical_location_type` int NULL DEFAULT NULL COMMENT '物理位置类型 0楼层 1房间 2床位',
+                                `device_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '位置备注',
+                                `data_value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '数据值',
+                                `alarm_time` datetime NULL DEFAULT NULL COMMENT '数据上报时间',
+                                `create_time` datetime NOT NULL COMMENT '创建时间',
+                                `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                                `create_by` bigint NULL DEFAULT NULL COMMENT '创建人id',
+                                `update_by` bigint NULL DEFAULT NULL COMMENT '更新人id',
+                                `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
+                                PRIMARY KEY (`id`) USING BTREE,
+                                INDEX `idx_iot_id_product_key`(`iot_id` ASC, `function_id` ASC, `location_type` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 59867 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : MySQL
+ Source Server Type    : MySQL
+ Source Server Version : 80033
+ Source Host           : localhost:3306
+ Source Schema         : sb
+
+ Target Server Type    : MySQL
+ Target Server Version : 80033
+ File Encoding         : 65001
+
+ Date: 23/07/2025 17:15:29
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for nursing_task
+-- ----------------------------
+DROP TABLE IF EXISTS `nursing_task`;
+CREATE TABLE `nursing_task`  (
+                                 `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                 `nursing_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '护理员id',
+                                 `project_id` int NOT NULL COMMENT '项目id',
+                                 `project_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '护理项目名称',
+                                 `elder_id` bigint NULL DEFAULT NULL COMMENT '老人id',
+                                 `elder_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '老人姓名',
+                                 `bed_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '床位编号',
+                                 `estimated_server_time` datetime NULL DEFAULT NULL COMMENT '预计服务时间',
+                                 `real_server_time` datetime NULL DEFAULT NULL COMMENT '实际服务时间',
+                                 `mark` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '执行记录',
+                                 `cancel_reason` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '取消原因',
+                                 `status` int NULL DEFAULT NULL COMMENT '状态  1待执行 2已执行 3已关闭 ',
+                                 `task_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '执行图片',
+                                 `create_time` datetime NOT NULL COMMENT '创建时间',
+                                 `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+                                 `create_by` bigint NULL DEFAULT NULL COMMENT '创建人id',
+                                 `update_by` bigint NULL DEFAULT NULL COMMENT '更新人id',
+                                 `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
+                                 PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '护理任务表' ROW_FORMAT = DYNAMIC;
+
+SET FOREIGN_KEY_CHECKS = 1;

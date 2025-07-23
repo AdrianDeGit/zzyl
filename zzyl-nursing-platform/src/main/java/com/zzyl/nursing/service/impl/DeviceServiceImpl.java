@@ -1,13 +1,16 @@
 package com.zzyl.nursing.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.huaweicloud.sdk.iotda.v5.IoTDAClient;
-import com.huaweicloud.sdk.iotda.v5.model.ListProductsRequest;
-import com.huaweicloud.sdk.iotda.v5.model.ListProductsResponse;
+import com.huaweicloud.sdk.iotda.v5.model.*;
 import com.zzyl.common.exception.base.BaseException;
 import com.zzyl.common.utils.StringUtils;
 import com.zzyl.nursing.domain.Device;
+import com.zzyl.nursing.domain.dto.DeviceDTO;
 import com.zzyl.nursing.domain.vo.ProductVO;
 import com.zzyl.nursing.mapper.DeviceMapper;
 import com.zzyl.nursing.service.IDeviceService;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 
@@ -143,5 +147,108 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
         }
         // 解析数据，并返回
         return JSONUtil.toList(jsonStr, ProductVO.class);
+    }
+
+    /**
+     * 注册设备
+     *
+     * @param deviceDTO
+     */
+    @Override
+    public void registerDevice(DeviceDTO deviceDTO) {
+        // 1.检查设备名称是否重复
+        // 1.1 构建LambdaQueryWrapper对象
+        LambdaQueryWrapper<Device> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+
+        // 1.2 设置设备名字筛选条件
+        lambdaQueryWrapper
+                .eq(ObjectUtil.isNotEmpty(deviceDTO.getDeviceName()), Device::getDeviceName, deviceDTO.getDeviceName());
+
+        // 1.3 执行查询，获取查询匹配的个数，个数大于0，说明已存在，抛出异常，提示设备名称重复
+        if (count(lambdaQueryWrapper) > 0) {
+            log.error("注册设备失败：设备名称 【{}】 重复", deviceDTO.getDeviceName());
+            throw new BaseException("注册设备失败：设备名称 【" + deviceDTO.getDeviceName() + "】 重复");
+        }
+
+        // 2.检查设备标识码是否重复
+        // 2.1 LambdaQueryWrapper对象清除上面的筛选条件（clear方法）
+        lambdaQueryWrapper.clear();
+
+        // 2.2 设置设备设备标识码筛选条件
+        lambdaQueryWrapper.eq(ObjectUtil.isNotEmpty(deviceDTO.getNodeId()), Device::getNodeId, deviceDTO.getNodeId());
+
+        // 2.3 执行查询，获取查询匹配的个数，个数大于0，说明已存在，抛出异常，提示设备标识码重复
+        if (count(lambdaQueryWrapper) > 0) {
+            log.error("注册设备失败：设备标识码 【{}】 重复", deviceDTO.getNodeId());
+            throw new BaseException("注册设备失败：设备标识码 【" + deviceDTO.getNodeId() + "】 重复");
+        }
+
+        // 3.检查同一位置是否绑定了相同的产品
+        // 1.1 LambdaQueryWrapper对象清除上面的筛选条件（clear方法）
+        lambdaQueryWrapper.clear();
+
+        // 1.2 设置筛选条件：binding_location，location_type,physical_location_type,product_key查询有数据代表同一位置绑定了相同产品的设备
+        lambdaQueryWrapper
+                .eq(ObjectUtil.isNotEmpty(deviceDTO.getBindingLocation()), Device::getBindingLocation, deviceDTO.getBindingLocation())
+                .eq(ObjectUtil.isNotEmpty(deviceDTO.getLocationType()), Device::getLocationType, deviceDTO.getLocationType())
+                .eq(ObjectUtil.isNotEmpty(deviceDTO.getPhysicalLocationType()), Device::getPhysicalLocationType, deviceDTO.getPhysicalLocationType())
+                .eq(ObjectUtil.isNotEmpty(deviceDTO.getProductKey()), Device::getProductKey, deviceDTO.getProductKey());
+
+        // 1.3 执行查询，获取查询匹配的个数，个数大于0，说明已存在，抛出异常，提示设同一位置绑定了相同产品的设备
+        if (count(lambdaQueryWrapper) > 0) {
+            log.error("注册设备失败：同一位置绑定了相同产品的设备");
+            throw new RuntimeException("注册设备失败：同一位置绑定了相同产品的设备");
+        }
+
+        // 4.项目华为IOT平台注册设备
+        // 4.1 请求参数对象AddDeviceRequest对象
+        AddDeviceRequest addDeviceRequest = new AddDeviceRequest();
+
+        // 4.2 请求体参数对象AddDevice对象
+        AddDevice addDevice = new AddDevice();
+        // 设备标识码 node_id
+        addDevice.setNodeId(deviceDTO.getNodeId());
+        // 设备名称 device_name
+        addDevice.setDeviceName(deviceDTO.getDeviceName());
+        // 产品id product_id
+        addDevice.setProductId(deviceDTO.getProductKey());
+        // 实例AuthInfo对象，封装secret（自己生成唯一值）
+        AuthInfo authInfo = new AuthInfo();
+        String secret = UUID.randomUUID().toString().replaceAll("-", "");
+        authInfo.setSecret(secret);
+        // AddDevice对象封装AuthInfo对象(withAuthInfo)
+        addDevice.withAuthInfo(authInfo);
+        // AddDeviceRequest对象封装AddDevice对象（withBody）
+        addDeviceRequest.setBody(addDevice);
+        // 4.3 执行请求，获取响应结果AddDeviceResponse对象
+        AddDeviceResponse addDeviceResponse = ioTDAClient.addDevice(addDeviceRequest);
+        // 4.4 判断响应状态为是否为201,如果不是抛出异常，提示“物联网平台-注册设备失败”
+        if (addDeviceResponse.getHttpStatusCode() != 201) {
+            log.error("物联网平台-注册设备失败");
+            throw new BaseException("注册设备失败：物联网平台-注册设备失败");
+        }
+        // 4.5 提示设备注册成功
+        log.info("物联网平台-注册设备【{}】成功", deviceDTO.getDeviceName());
+
+        // 5.本地保存设备数据到数据库中
+        // 5.1 将前端传递过来的deviceDTO对象数据封装赋值给Device对象
+        Device device = new Device();
+        BeanUtil.copyProperties(deviceDTO, device);
+        // 5.2 补全数据
+        // iot_id 从AddDeviceResponse对象中获取
+        device.setIotId(addDeviceResponse.getDeviceId());
+        // secret
+        device.setSecret(secret);
+        // 判断是否是随身设备，如果是，物理位置类型为-1
+        if (device.getLocationType() == 0) {
+            device.setPhysicalLocationType(-1);
+        }
+        // 5.3 插入数据库
+        try {
+            save(device);
+        } catch (Exception e) {
+            log.error("注册设备失败：{}", e.getMessage());
+            throw new BaseException("注册设备失败，原因：" + e.getMessage());
+        }
     }
 }
