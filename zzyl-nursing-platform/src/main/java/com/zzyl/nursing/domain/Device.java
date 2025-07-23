@@ -72,13 +72,6 @@ public class Device extends BaseEntity {
     private String deviceName;
 
     /**
-     * 备注名称
-     */
-    @Excel(name = "备注名称")
-    @ApiModelProperty(value = "备注名称")
-    private String nickname;
-
-    /**
      * 产品key
      */
     @Excel(name = "产品key")

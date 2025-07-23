@@ -7,6 +7,8 @@ import com.zzyl.nursing.domain.Device;
 import com.zzyl.nursing.domain.dto.DeviceDTO;
 import com.zzyl.nursing.service.IDeviceService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -76,5 +78,20 @@ public class DeviceController extends BaseController {
     public AjaxResult registerDevice(@RequestBody DeviceDTO deviceDTO) {
         deviceService.registerDevice(deviceDTO);
         return success();
+    }
+
+    /**
+     * 获取设备详细信息
+     *
+     * @param iotId
+     * @return
+     */
+    @GetMapping("/{iotId}")
+    @ApiOperation("获取设备详细信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "iotId", value = "物联网设备id", required = true, dataTypeClass = String.class)
+    })
+    public AjaxResult getInfo(@PathVariable("iotId") String iotId) {
+        return success(deviceService.queryDeviceDetail(iotId));
     }
 }

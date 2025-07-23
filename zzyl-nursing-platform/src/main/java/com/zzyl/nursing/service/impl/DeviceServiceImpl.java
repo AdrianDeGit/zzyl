@@ -1,9 +1,12 @@
 package com.zzyl.nursing.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.huaweicloud.sdk.iotda.v5.IoTDAClient;
 import com.huaweicloud.sdk.iotda.v5.model.*;
@@ -11,6 +14,7 @@ import com.zzyl.common.exception.base.BaseException;
 import com.zzyl.common.utils.StringUtils;
 import com.zzyl.nursing.domain.Device;
 import com.zzyl.nursing.domain.dto.DeviceDTO;
+import com.zzyl.nursing.domain.vo.DeviceDetailVO;
 import com.zzyl.nursing.domain.vo.ProductVO;
 import com.zzyl.nursing.mapper.DeviceMapper;
 import com.zzyl.nursing.service.IDeviceService;
@@ -19,6 +23,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -250,5 +257,47 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, Device> impleme
             log.error("注册设备失败：{}", e.getMessage());
             throw new BaseException("注册设备失败，原因：" + e.getMessage());
         }
+    }
+
+    /**
+     * 获取设备详细信息
+     *
+     * @param iotId
+     * @return
+     */
+    @Override
+    public DeviceDetailVO queryDeviceDetail(String iotId) {
+        // 查询数据库
+        Device device = getOne(Wrappers.<Device>lambdaQuery().eq(Device::getIotId, iotId));
+        if (ObjectUtil.isEmpty(device)) {
+            return null;
+        }
+
+        // 调用华为云物联网接口
+        ShowDeviceRequest request = new ShowDeviceRequest();
+        request.setDeviceId(iotId);
+        ShowDeviceResponse response;
+        try {
+            response = ioTDAClient.showDevice(request);
+        } catch (Exception e) {
+            log.info("物联网接口 - 查询设备详情，调用失败:{}", e.getMessage());
+            throw new BaseException("物联网接口 - 查询设备详情，调用失败");
+        }
+
+        // 属性拷贝
+        DeviceDetailVO deviceDetailVO = BeanUtil.toBean(device, DeviceDetailVO.class);
+
+        deviceDetailVO.setDeviceStatus(response.getStatus());
+        String activeTimeStr = response.getActiveTime();
+        if(StringUtils.isNotEmpty(activeTimeStr)){
+            LocalDateTime activeTime = LocalDateTimeUtil.parse(activeTimeStr, DatePattern.UTC_MS_PATTERN);
+            //日期时区转换
+            activeTime = activeTime.atZone(ZoneId.from(ZoneOffset.UTC))
+                    .withZoneSameInstant(ZoneId.of("Asia/Shanghai"))
+                    .toLocalDateTime();
+            deviceDetailVO.setActiveTime(activeTime);
+        }
+
+        return deviceDetailVO;
     }
 }

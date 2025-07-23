@@ -6,6 +6,7 @@ import com.zzyl.common.core.domain.AjaxResult;
 import com.zzyl.nursing.domain.Device;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zzyl.nursing.domain.dto.DeviceDTO;
+import com.zzyl.nursing.domain.vo.DeviceDetailVO;
 import com.zzyl.nursing.domain.vo.ProductVO;
 
 /**
@@ -79,4 +80,9 @@ public interface IDeviceService extends IService<Device> {
      * 注册设备
      */
     void registerDevice(DeviceDTO deviceDTO);
+
+    /**
+     * 获取设备详细信息
+     */
+    DeviceDetailVO queryDeviceDetail(String iotId);
 }
