@@ -201,7 +201,7 @@
             <!-- 代码生成-->
             <dependency>
                 <groupId>com.zzyl</groupId>
-                <artifactId>zzyl-generator</artifactId>
+                <artifactId>ruoyi</artifactId>
                 <version>${zzyl.version}</version>
             </dependency>
 

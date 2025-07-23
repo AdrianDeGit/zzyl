@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import com.zzyl.common.core.domain.R;
 
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,15 +41,15 @@ import com.zzyl.common.core.page.TableDataInfo;
 @RequestMapping("/${moduleName}/${businessName}")
 @Api(tags = "${functionName}相关接口")
 public class ${ClassName}Controller extends BaseController {
-    @Autowired
+    @Resource
     private I${ClassName}Service ${className}Service;
 
-/**
- * 查询${functionName}列表
- */
-@PreAuthorize("@ss.hasPermi('${permissionPrefix}:list')")
-@GetMapping("/list")
-@ApiOperation("查询${functionName}列表")
+    /**
+     * 查询${functionName}列表
+     */
+    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:list')")
+    @GetMapping("/list")
+    @ApiOperation("查询${functionName}列表")
     #if($table.crud || $table.sub)
     public TableDataInfo<List<${ClassName}>> list(${ClassName} ${className}) {
         startPage();
@@ -56,10 +57,10 @@ public class ${ClassName}Controller extends BaseController {
         return getDataTable(list);
     }
     #elseif($table.tree)
-        public AjaxResult list(${ClassName} ${className}) {
-            List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-            return success(list);
-        }
+    public AjaxResult list(${ClassName} ${className}) {
+        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        return success(list);
+    }
     #end
 
     /**
@@ -82,8 +83,7 @@ public class ${ClassName}Controller extends BaseController {
     @GetMapping(value = "/{${pkColumn.javaField}}")
     @ApiOperation("获取${functionName}详细信息")
     public R<${ClassName}> getInfo(@ApiParam(value = "${functionName}ID", required = true)
-                                   @PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
-        ##        return success(${className}Service.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
+        @PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
         return R.ok(${className}Service.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
     }
 
@@ -94,7 +94,7 @@ public class ${ClassName}Controller extends BaseController {
     @Log(title = "${functionName}", businessType = BusinessType.INSERT)
     @PostMapping
     @ApiOperation("新增${functionName}")
-    public AjaxResult add(@ApiParam(value = "${functionName}实体", required = true) @RequestBody ${ClassName} ${className}) {
+    public AjaxResult add(@ApiParam(value = "${functionName}实体", required = true)                     @RequestBody ${ClassName} ${className}) {
         return toAjax(${className}Service.insert${ClassName}(${className}));
     }
 

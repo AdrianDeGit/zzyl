@@ -58,7 +58,7 @@
         <!-- 代码生成-->
         <dependency>
             <groupId>com.zzyl</groupId>
-            <artifactId>zzyl-generator</artifactId>
+            <artifactId>ruoyi</artifactId>
         </dependency>
 
         <!-- 护理业务模块-->

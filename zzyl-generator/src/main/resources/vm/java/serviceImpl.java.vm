@@ -1,6 +1,7 @@
 package ${packageName}.service.impl;
 
 import java.util.List;
+
 #if($table.sub)
 import java.util.ArrayList;
 
@@ -8,20 +9,16 @@ import com.zzyl.common.utils.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 import ${packageName}.domain.${subClassName};
 #end
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ${packageName}.mapper.${ClassName}Mapper;
 import ${packageName}.domain.${ClassName};
 import ${packageName}.service.I${ClassName}Service;
-
 import ${packageName}.mapper.${ClassName}Mapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import java.util.Arrays;
+import javax.annotation.Resource;
 
 #foreach ($column in $columns)
     #if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
-    import com.zzyl.common.utils.DateUtils;
         #break
     #end
 #end
@@ -34,7 +31,7 @@ import java.util.Arrays;
  */
 @Service
 public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${ClassName}> implements I${ClassName}Service {
-    @Autowired
+    @Resource
     private ${ClassName}Mapper ${className}Mapper;
 
     /**
